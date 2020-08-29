@@ -1,6 +1,7 @@
 //Imports
 const express = require("express")
 const cors = require("cors")
+const imageRoutes = require("./routes/images")
 
 //Settup
 const app = express()
@@ -15,9 +16,11 @@ app.use(express.urlencoded({extended: false}))
 app.use(cors())
 
 //Routes
-app.get("/", (res, req) => {
-    res.send("HOME")
+app.get("/", (req, res) => {
+    res.redirect("/api/images")
 })
+
+app.use("/api/images", imageRoutes)
 
 //Exports
 module.exports = app
