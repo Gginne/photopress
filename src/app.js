@@ -1,7 +1,8 @@
 //Imports
 const express = require("express")
 const cors = require("cors")
-const imageRoutes = require("./routes/images")
+
+const imageRoutes = require("./routes/images.routes.js")
 
 //Settup
 const app = express()
@@ -18,7 +19,7 @@ app.use(cors())
 
 //Routes
 app.get("/", (req, res) => {
-    res.render("new")
+    res.redirect("/api/images")
 })
 
 app.use("/api/images", imageRoutes)
