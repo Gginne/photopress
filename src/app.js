@@ -9,6 +9,7 @@ const app = express()
 
 //Settings
 app.set('port', process.env.PORT || 4000)
+app.set('view engine', 'ejs')
 
 //Middleware
 app.use(express.json())
@@ -17,7 +18,7 @@ app.use(cors())
 
 //Routes
 app.get("/", (req, res) => {
-    res.redirect("/api/images")
+    res.render("new")
 })
 
 app.use("/api/images", imageRoutes)

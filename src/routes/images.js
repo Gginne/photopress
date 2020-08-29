@@ -1,11 +1,15 @@
 //Imports
 const express = require("express")
+const upload = require("../upload")
+const imageCtrl = require("../controllers/image.controller")
+
+//Set Router
 const router = express.Router()
 
 //Routes
 router.route("/")
-      .get((req, res) => res.json({message: "Images"}))
-      .post((req, res) => res.json({message: "Image Created"}))
+      .get(imageCtrl.get)
+      .post(imageCtrl.post)
 
 router.route("/:id")
       .get((req, res) => res.json({message: `Image id ${req.params.id}`}))

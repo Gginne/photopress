@@ -4,7 +4,7 @@ const {Schema, model} = require("mongoose")
 //Set Schema
 const imageSchema = new Schema({
     name: String,
-    url: URL
+    url: String,
 })
 
-const Image = model("image", imageSchema)
+module.exports = model("Image", imageSchema)
