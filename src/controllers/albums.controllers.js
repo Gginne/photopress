@@ -17,11 +17,11 @@ class AlbumController{
 
     post = async (req, res) => {
         try{
-          const {name} = req.body
-          const newAlbum = new Album({name})
-          await newAlbum.save()
-          console.log(newAlbum)
-          res.json({message: "Album Created"})
+            const {name} = req.body
+            const newAlbum = new Album({name})
+            await newAlbum.save()
+            console.log(newAlbum)
+            res.json({message: "Album Created"})
         } catch(err){
             console.log(err)
         } 

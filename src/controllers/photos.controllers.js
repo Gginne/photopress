@@ -16,9 +16,9 @@ class PhotoController{
 
     post = async (req, res) => {
         try{
-            const image_path = req.file.path
+            const {path, filename} = req.file
             const {title, notes} = req.body
-            const newPhoto = new Photo({title, image_path, notes})
+            const newPhoto = new Photo({title, path, filename, notes})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
             console.log(newPhoto)

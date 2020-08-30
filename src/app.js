@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/photos", photoRoutes)
-app.use("/api/albums", photoRoutes)
+app.use("/api/albums", albumRoutes)
 
 //Exports
 module.exports = app

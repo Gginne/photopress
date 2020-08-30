@@ -2,6 +2,7 @@
 const express = require("express")
 const photoCtrl = require("../controllers/photos.controllers")
 const upload = require("../upload")
+const remove = require("../middleware/remove")
 
 //Set Router
 const router = express.Router()
@@ -14,7 +15,7 @@ router.route("/")
 router.route("/:id")
       .get(photoCtrl.get)
       .put(photoCtrl.put)
-      .delete(photoCtrl.delete)
+      .delete(remove, photoCtrl.delete)
 
 //Exports
 module.exports = router
