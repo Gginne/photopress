@@ -1,6 +1,6 @@
 //Imports
 const express = require("express")
-const imageCtrl = require("../controllers/images.controllers")
+const photoCtrl = require("../controllers/photos.controllers")
 const upload = require("../upload")
 
 //Set Router
@@ -8,13 +8,13 @@ const router = express.Router()
 
 //Routes
 router.route("/")
-      .get(imageCtrl.get)
-      .post(upload, imageCtrl.post)
+      .get(photoCtrl.get)
+      .post(upload, photoCtrl.post)
 
 router.route("/:id")
-      .get(imageCtrl.get)
-      .put(imageCtrl.put)
-      .delete(imageCtrl.delete)
+      .get(photoCtrl.get)
+      .put(photoCtrl.put)
+      .delete(photoCtrl.delete)
 
 //Exports
 module.exports = router

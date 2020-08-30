@@ -2,7 +2,8 @@
 const express = require("express")
 const cors = require("cors")
 
-const imageRoutes = require("./routes/images.routes.js")
+const photoRoutes = require("./routes/photos.routes")
+const albumRoutes = require("./routes/albums.routes")
 
 //Settup
 const app = express()
@@ -19,10 +20,11 @@ app.use(cors())
 
 //Routes
 app.get("/", (req, res) => {
-    res.redirect("/api/images")
+    res.redirect("/api/photos")
 })
 
-app.use("/api/images", imageRoutes)
+app.use("/api/photos", photoRoutes)
+app.use("/api/albums", photoRoutes)
 
 //Exports
 module.exports = app
