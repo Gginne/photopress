@@ -1,7 +1,7 @@
 //Imports
 const express = require("express")
 const photoCtrl = require("../controllers/photos.controllers")
-const upload = require("../upload")
+const upload = require("../middleware/upload")
 const remove = require("../middleware/remove")
 
 //Set Router
@@ -12,7 +12,7 @@ router.route("/")
       .get(photoCtrl.get)
       .post(upload, photoCtrl.post)
 
-router.route("/:id")
+router.route("/:photoId")
       .get(photoCtrl.get)
       .put(photoCtrl.put)
       .delete(remove, photoCtrl.delete)
