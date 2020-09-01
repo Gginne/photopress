@@ -1,7 +1,6 @@
 //Imports
 const Album = require("../models/Album")
 const Photo = require("../models/Photo");
-const campground = require("../../../../../WEB DEV BOOTCAMP/YelpCamp/models/campground");
 
 //Controller Class
 class AlbumController{
