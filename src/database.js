@@ -2,7 +2,7 @@
 const mongoose = require("mongoose")
 
 //Connection
-const URI = process.env.MONGODB_URI || "mongodb://localhost/dbtest"
+const URI = process.env.MONGODB_URI || "mongodb://localhost/img_press"
 
 mongoose.connect(URI, {
     useUnifiedTopology: true,
