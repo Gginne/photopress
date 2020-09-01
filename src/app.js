@@ -20,7 +20,9 @@ app.use(express.urlencoded({extended: false}))
 app.use(cors())
 
 //Routes
-
+app.get("/", (req, res) => {
+    res.redirect("/api/photos")
+})
 app.use("/api/photos", photoRoutes)
 app.use("/api/albums", albumRoutes)
 
