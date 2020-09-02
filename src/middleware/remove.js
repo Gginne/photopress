@@ -6,7 +6,7 @@ const Photo = require("../models/Photo")
 module.exports = async (req, res, next) => {
     const foundPhoto = await Photo.findById(req.params.photoId)
     console.log(foundPhoto)
-    const path = foundPhoto.path
+    const path = foundPhoto.img.path
     fs.unlink(path, (err) => {
         if (err) {
             console.error(err)

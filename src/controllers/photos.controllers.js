@@ -1,5 +1,6 @@
 //Imports
 const Photo = require("../models/Photo")
+const fs = require("fs")
 
 //Controller Class
 class PhotoController{
@@ -16,9 +17,11 @@ class PhotoController{
 
     post = async (req, res) => {
         try{
-            const {path, filename} = req.file
+            const {path, filename, mimetype} = req.file
             const {title, notes} = req.body
-            const newPhoto = new Photo({title, path, filename, notes})
+            const buffer = fs.readFileSync(path)
+            const img = {buffer, path, filename, mimetype}
+            const newPhoto = new Photo({title, img, notes})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
             console.log(newPhoto)
