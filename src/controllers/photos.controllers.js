@@ -11,17 +11,22 @@ class PhotoController{
             response = await Photo.findById(req.params.photoId)
         } else {
             response = await Photo.find()
+            return res.json(response)
         }
-        res.json(response)
+        res.setHeader('content-type', response.image.mimetype);
+        res.send(response.image.buffer);
     }
 
     post = async (req, res) => {
         try{
+            //Retrieve data
             const {path, filename, mimetype} = req.file
             const {title, notes} = req.body
+            //Set Image Buffer
             const buffer = fs.readFileSync(path)
-            const img = {buffer, path, filename, mimetype}
-            const newPhoto = new Photo({title, img, notes})
+            //Save Image
+            const image = {buffer, path, filename, mimetype}
+            const newPhoto = new Photo({title, image, notes})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
             console.log(newPhoto)

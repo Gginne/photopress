@@ -4,7 +4,7 @@ const {Schema, model} = require("mongoose")
 //Set Schema
 const photoSchema = new Schema({
     title: {type: String, required: true},
-    img: {
+    image: {
         buffer: Buffer,
         path: String,
         filename: String,

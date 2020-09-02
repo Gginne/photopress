@@ -17,5 +17,7 @@ router.route("/:photoId")
       .put(photoCtrl.put)
       .delete(remove, photoCtrl.delete)
 
+
+
 //Exports
 module.exports = router
