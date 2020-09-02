@@ -6,15 +6,20 @@ const fs = require("fs")
 class PhotoController{
 
     get = async (req, res) => {
-        let response;
+        let photo;
         if(req.params.photoId){
-            response = await Photo.findById(req.params.photoId)
+            photo = await Photo.findById(req.params.photoId)
         } else {
-            response = await Photo.find()
-            return res.json(response)
+            photo = await Photo.find()    
         }
-        res.setHeader('content-type', response.image.mimetype);
-        res.send(response.image.buffer);
+        res.json(photo)
+       
+    }
+
+    render = async (req, res) => {
+        const photo = await Photo.findById(req.params.photoId)
+        res.setHeader('content-type', photo.image.mimetype);
+        res.send(photo.image.buffer);
     }
 
     post = async (req, res) => {
