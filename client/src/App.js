@@ -26,7 +26,7 @@ class App extends Component {
     return (
       <div>
         {photos.map(photo => {
-          const {buffer, mimetype} = photo.image
+          const {buffer} = photo.image
           const img = toBase64(buffer.data)
           return (
             <div>
