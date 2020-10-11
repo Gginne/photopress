@@ -17,7 +17,7 @@ router.route("/:photoId")
       .put(photoCtrl.put)
       .delete(remove, photoCtrl.delete)
 
-router.route("/image/:photoId")
+router.route("/photo/:photoId")
       .get(photoCtrl.render)
 
 //Exports
