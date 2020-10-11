@@ -5,7 +5,7 @@ const fs = require("fs")
 //Controller Class
 class PhotoController{
 
-    get = async (req, res) => {
+    async get(req, res){
         let photo;
         if(req.params.photoId){
             photo = await Photo.findById(req.params.photoId)
@@ -16,13 +16,13 @@ class PhotoController{
        
     }
 
-    render = async (req, res) => {
+    async render(req, res){
         const photo = await Photo.findById(req.params.photoId)
         res.setHeader('content-type', photo.image.mimetype);
         res.send(photo.image.buffer);
     }
 
-    post = async (req, res) => {
+    async post(req, res){
         try{
             //Retrieve data
             const {path, filename, mimetype} = req.file
@@ -42,13 +42,13 @@ class PhotoController{
         } 
     }
 
-    put = async (req, res) => {
+    async put(req, res){
         const {title, notes} = req.body
         const update = await Photo.findOneAndUpdate(req.params.photoId, {title, notes})
         res.json({message: `Updated Photo id ${req.params.photoId}`})
     }
     
-    delete = async (req, res) => {
+    async delete(req, res){
         const deletedPhoto = await Photo.findOneAndDelete(req.params.photoId)
         console.log("DELETED", deletedPhoto)
         res.json({message: `Deleted Image ${deletedPhoto.title}`})

@@ -10,21 +10,19 @@ const app = express()
 
 
 //Settings
-app.set('port', process.env.PORT || 4000)
+app.set('port', process.env.PORT || 5000)
 app.set('view engine', 'ejs')
 
 //Middleware
 app.use(express.json())
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({extended: false}))
 app.use(cors())
 
 //Routes
-app.get("/", (req, res) => {
-    res.redirect("/api/photos")
-})
 app.use("/api/photos", photoRoutes)
 app.use("/api/albums", albumRoutes)
+
 
 //Exports
 module.exports = app
