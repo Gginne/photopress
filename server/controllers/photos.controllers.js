@@ -10,7 +10,7 @@ class PhotoController{
         if(req.params.photoId){
             photo = await Photo.findById(req.params.photoId)
         } else {
-            photo = await Photo.find()    
+            photo = await Photo.find({author: req.user.id})    
         }
         res.json(photo)
        
@@ -27,11 +27,12 @@ class PhotoController{
             //Retrieve data
             const {path, filename, mimetype} = req.file
             const {title, notes} = req.body
+            const author = req.user.id
             //Set Image Buffer
             const buffer = fs.readFileSync(path)
             //Save Image
             const image = {buffer, path, filename, mimetype}
-            const newPhoto = new Photo({title, image, notes})
+            const newPhoto = new Photo({title, image, notes, author})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
             console.log(newPhoto)

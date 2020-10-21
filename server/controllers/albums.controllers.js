@@ -10,7 +10,7 @@ class AlbumController{
         if(req.params.albumId){
             response = await Album.findById(req.params.albumId)
         } else {
-            response = await Album.find()
+            response = await Album.find({author: req.user.id})
         }
         res.json(response)
     }
@@ -18,7 +18,8 @@ class AlbumController{
     async post(req, res){
         try{
             const {name} = req.body
-            const newAlbum = new Album({name})
+            const author = req.user.id
+            const newAlbum = new Album({name, author})
             await newAlbum.save()
             console.log(newAlbum)
             res.json({message: "Album Created"})

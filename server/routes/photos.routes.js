@@ -3,22 +3,23 @@ const express = require("express")
 const photoCtrl = require("../controllers/photos.controllers")
 const upload = require("../middleware/upload")
 const remove = require("../middleware/remove")
+const auth = require("../middleware/auth")
 
 //Set Router
 const router = express.Router()
 
 //Routes
 router.route("/")
-      .get(photoCtrl.get)
-      .post(upload, photoCtrl.post)
+      .get(auth, photoCtrl.get) //getting all images associated with logged in user
+      .post([auth, upload], photoCtrl.post) //posting images to user
 
 router.route("/:photoId")
-      .get(photoCtrl.get)
-      .put(photoCtrl.put)
-      .delete(remove, photoCtrl.delete)
+      .get(auth, photoCtrl.get)
+      .put(auth, photoCtrl.put)
+      .delete([auth, remove], photoCtrl.delete)
 
 router.route("/photo/:photoId")
-      .get(photoCtrl.render)
+      .get(auth, photoCtrl.render)
 
 //Exports
 module.exports = router

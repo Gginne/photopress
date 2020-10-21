@@ -13,7 +13,7 @@ const photoSchema = new Schema({
     notes: {type: String, required: false},
     geolocation: {type: [Number], required: false},
     created_at: {type: Date, default: Date.now},
-    albums: [{type: Schema.Types.ObjectId, ref: "Album"}],
+    author: {type: Schema.Types.ObjectId, ref: "User"},
     tags: {type: [String], required: false}
 })
 
