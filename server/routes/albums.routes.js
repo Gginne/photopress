@@ -2,14 +2,14 @@
 const express = require("express")
 const albumCtrl = require("../controllers/albums.controllers")
 const photoCtrl = require("../controllers/photos.controllers")
-
+const auth = require("../middleware/auth")
 //Set Router
 const router = express.Router()
 
 //Routes
 router.route("/")
-      .get(albumCtrl.get) //Get all the albums
-      .post(albumCtrl.post) //Create a new album
+      .get(auth, albumCtrl.get) //Get all the albums
+      .post(auth, albumCtrl.post) //Create a new album
 
 router.route("/:albumId")
       .post(albumCtrl.addItem) //Add photo to albums

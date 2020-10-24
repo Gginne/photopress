@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 module.exports = (req, res, next) => {
     const token = req.header("x-auth-token")
     
-    if(!token) return res.status(401).json({message: "Authorization denied"})
+    if(!token) return res.redirect(301, "/")
 
     try{
         
@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
         next()
 
     } catch(e){
-        res.status(400).json({message: "Invalid Token"})
+        res.redirect(301, "/")
     }
 
     

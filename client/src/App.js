@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import Login from "./components/Login"
+import Photos from "./components/Photos"
 
 class App extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
     this.state = {
-      photos: []
-    }
+      isLogged: false,
+    };
   }
+  handleLogin(){
 
-  async componentDidMount(){
-    const res = await fetch("/api/photos")
-    const data = await res.json()
-
-    this.setState({photos: data}, () => console.log(this.state.photos))
   }
-
   render() {
-    function toBase64(arr) {
-      //arr = new Uint8Array(arr) if it's an ArrayBuffer
-      return btoa(
-         arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
-    }
-    const {photos} = this.state
+    const { isLogged } = this.state;
     return (
-      <div>
-        {photos.map(photo => {
-          const {buffer} = photo.image
-          const img = toBase64(buffer.data)
-          return (
-            <div>
-            <h2>{photo.title}</h2>
-            <img src={`data:image/png;base64,${img}`} alt={photo.title} width="200px"/>
-            </div>
-          )
-        })}
-      </div>
-    )
+      <Switch>
+        <Route exact path="/login" render={() => <Login login={this.handleLogin} />} />
+        {isLogged ? (
+          <>
+          <Route exact path="/" render={() => <Photos />} />
+          <Route path="/api" render={() => <Photos />} />
+          </>
+        ) : (
+          <>
+          <Route exact path="/" render={() => <Login login={this.handleLogin} />} />
+          <Route path="/api" render={() => <Login login={this.handleLogin} />} />
+          </>
+        )}
+      </Switch>
+    );
   }
 }
 

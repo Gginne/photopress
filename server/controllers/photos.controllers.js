@@ -13,7 +13,6 @@ class PhotoController{
             photo = await Photo.find({author: req.user.id})    
         }
         res.json(photo)
-       
     }
 
     async render(req, res){
