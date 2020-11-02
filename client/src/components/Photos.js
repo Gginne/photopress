@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 class Photos extends Component {
     constructor(){
@@ -7,6 +8,10 @@ class Photos extends Component {
           photos: []
         }
       }
+    
+    async componentDidMount(){
+      
+    }
     toBase64(arr) {
         //arr = new Uint8Array(arr) if it's an ArrayBuffer
         return btoa(
@@ -18,6 +23,7 @@ class Photos extends Component {
         const {photos} = this.state
         return (
           <div>
+            <h1>Photos</h1>
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)

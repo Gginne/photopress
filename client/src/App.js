@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import Login from "./components/Login"
 import Photos from "./components/Photos"
+import Register from "./components/Register"
 
 class App extends Component {
   constructor() {
@@ -10,25 +11,31 @@ class App extends Component {
       isLogged: false,
     };
   }
-  handleLogin(){
-
+  handleLogin = () => {
+    this.state.isLogged = true
+  }
+  handleLogout = () => {
+    this.state.isLogged = false
   }
   render() {
     const { isLogged } = this.state;
     return (
       <Switch>
-        <Route exact path="/login" render={() => <Login login={this.handleLogin} />} />
+        
         {isLogged ? (
           <>
           <Route exact path="/" render={() => <Photos />} />
-          <Route path="/api" render={() => <Photos />} />
+          <Route exact path="/photos" render={() => <Photos />} />
+          <Route exact path="/logout" render={() => <Logout logout={this.handleLogout} />} />
           </>
         ) : (
           <>
           <Route exact path="/" render={() => <Login login={this.handleLogin} />} />
-          <Route path="/api" render={() => <Login login={this.handleLogin} />} />
+          <Route exact path="/login" render={() => <Login login={this.handleLogin} />} />
+          <Route exact path="/register" render={() => <Register />} />
           </>
         )}
+          
       </Switch>
     );
   }
