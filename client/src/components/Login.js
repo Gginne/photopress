@@ -16,31 +16,31 @@ class Login extends Component {
         })
     }
 
-    handleSubmit = async () => {
+    handleSubmit = async e => {
+        e.preventDefault()
         //...
         // Make the login API call
         const {email, password} = this.state
-
-        console.log(email, password)
-        /*const response = await fetch(`/api/auth`, {
-          method: 'POST',
-          body: JSON.stringify({ email, password })
-        })
+        const response = await axios.post('/api/auth', {email, password});
         //...
         // Extract the JWT from the response
-        const { jwt_token } = await response.json()
-        */
+        const {data} = response
+
+        console.log(data)
         //...
         // Do something the token in the login method
         //await login({ jwt_token })
-      }
+
+        
+    }
     
     render() {
         const {email, password} = this.state
+        console.log(email, password)
         return (
             <div>
                 <h1>Login</h1>
-                <form  onSubmit={this.handleSubmit}>
+                <form method="POST" onSubmit={e => this.handleSubmit(e)}>
                     <input value={email} name="email" onChange={e => this.handleChange(e)} />
                     <input type="password" value={password} name="password" onChange={e => this.handleChange(e)} />
                     <button>Submit</button>
