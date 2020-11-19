@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch  } from "react-router-dom";
 import Login from "./components/Login"
 import Logout from "./components/Logout"
 import Photos from "./components/Photos"
 import Register from "./components/Register"
+import Navbar from "./components/Navbar"
 
 class App extends Component {
   constructor() {
@@ -21,10 +22,11 @@ class App extends Component {
   render() {
     const { isLogged } = this.state;
     return (
-      <Switch>
-        
+      <div className="App">
+        <Switch>
         {isLogged ? (
           <>
+          <Navbar />
           <Route exact path="/" render={() => <Photos />} />
           <Route exact path="/photos" render={() => <Photos />} />
           <Route exact path="/logout" render={() => <Logout logout={this.handleLogout} />} />
@@ -36,8 +38,8 @@ class App extends Component {
           <Route exact path="/register" render={() => <Register />} />
           </>
         )}
-          
-      </Switch>
+        </Switch>
+        </div>
     );
   }
 }
