@@ -23,12 +23,12 @@ class App extends Component {
     const { isLogged } = this.state;
     return (
       <div className="App">
-        <Switch>
+      
         {isLogged ? (
           <>
           <Navbar />
           <Route exact path="/" render={() => <Photos />} />
-          <Route exact path="/photos" render={() => <Photos />} />
+          <Route exact path="/profile" render={() => <Photos />} />
           <Route exact path="/logout" render={() => <Logout logout={this.handleLogout} />} />
           </>
         ) : (
@@ -38,7 +38,7 @@ class App extends Component {
           <Route exact path="/register" render={() => <Register />} />
           </>
         )}
-        </Switch>
+
         </div>
     );
   }
