@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import UserContext from "../context/UserContext"
 //import axios from 'axios'
 
 class Photos extends Component {
+    static contextType = UserContext
     constructor(){
         super()
         this.state = {
@@ -10,8 +12,10 @@ class Photos extends Component {
       }
     
     async componentDidMount(){
-      
+      const user = this.context
+      console.log(user)
     }
+    
     toBase64(arr) {
         //arr = new Uint8Array(arr) if it's an ArrayBuffer
         return btoa(
@@ -19,7 +23,6 @@ class Photos extends Component {
         );
       }
     render() {
-        
         const {photos} = this.state
         return (
           <div>

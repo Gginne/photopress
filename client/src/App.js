@@ -5,40 +5,39 @@ import Logout from "./components/Logout"
 import Photos from "./components/Photos"
 import Register from "./components/Register"
 import Navbar from "./components/Navbar"
+import Cookies from "js-cookie"
+import {UserProvider} from "./context/UserContext"
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      isLogged: false,
+      isLogged: Cookies.get('user') ? true : false,
     };
   }
-  handleLogin = () => {
-    this.state.isLogged = true
-  }
-  handleLogout = () => {
-    this.state.isLogged = false
-  }
+
+
   render() {
     const { isLogged } = this.state;
+ 
     return (
       <div className="App">
-      
+        
         {isLogged ? (
-          <>
-          <Navbar />
-          <Route exact path="/" render={() => <Photos />} />
-          <Route exact path="/profile" render={() => <Photos />} />
-          <Route exact path="/logout" render={() => <Logout logout={this.handleLogout} />} />
-          </>
+            <UserProvider>
+            <Navbar />
+            <Route exact path="/" component={Photos} />
+            <Route exact path="/profile" component={Photos}  />
+            <Route exact path="/logout" component={Logout}  />
+            </UserProvider>
         ) : (
           <>
-          <Route exact path="/" render={() => <Login login={this.handleLogin} />} />
-          <Route exact path="/login" render={() => <Login login={this.handleLogin} />} />
-          <Route exact path="/register" render={() => <Register />} />
+          <Route exact path="/" component={Login}  />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
           </>
         )}
-
+        
         </div>
     );
   }

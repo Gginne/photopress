@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import Cookies from "js-cookie"
 
 class Login extends Component {
-    constructor(){
-        super()
+
+    constructor(props){
+        super(props)
         this.state = {
             email: "",
             password: ""
@@ -26,10 +28,9 @@ class Login extends Component {
         // Extract the JWT from the response
         const {data} = response
 
-        console.log(data)
-        //...
-        // Do something the token in the login method
-        //await login({ jwt_token })
+        Cookies.set('user', data, { expires: 1 })
+
+        this.props.history.push("/")
 
         
     }
