@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import UserContext from "../context/UserContext"
+//import axios from 'axios'
 
 class Photos extends Component {
+    static contextType = UserContext
+    
     constructor(){
         super()
         this.state = {
+          username: "",
           photos: []
         }
       }
     
     async componentDidMount(){
+      const {username, id} = this.context.user.user
       
+      this.setState({username})
     }
+    
     toBase64(arr) {
         //arr = new Uint8Array(arr) if it's an ArrayBuffer
         return btoa(
@@ -19,11 +26,10 @@ class Photos extends Component {
         );
       }
     render() {
-        
-        const {photos} = this.state
+        const {photos, username} = this.state
         return (
           <div>
-            <h1>Photos</h1>
+            <h1>Photos of {username} </h1>
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
