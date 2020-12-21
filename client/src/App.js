@@ -29,13 +29,11 @@ class App extends Component {
         
         {isLogged ? (
             <Switch>
-            <UserProvider>
-              
-              <Route exact path="/" render={props => <Photos />} />
-              <Route exact path="/profile" render={props => <Photos />} />
-              <Route exact path="/logout" render={props => <Logout {...props} logout={this.handleLogout} />} />
-              
-            </UserProvider>
+              <UserProvider>
+                <Route exact path="/" render={props => <Photos />} />
+                <Route exact path="/profile" render={props => <Photos />} />
+                <Route exact path="/logout" render={props => <Logout {...props} logout={this.handleLogout} />} />
+              </UserProvider>
             </Switch>
             
         ) : (
