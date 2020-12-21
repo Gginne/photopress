@@ -4,7 +4,6 @@ import Login from "./components/Login"
 import Logout from "./components/Logout"
 import Photos from "./components/Photos"
 import Register from "./components/Register"
-import Navbar from "./components/Navbar"
 import Cookies from "js-cookie"
 import {UserProvider} from "./context/UserContext"
 
@@ -12,10 +11,15 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      isLogged: Cookies.get('user') ? true : false,
+      isLogged: Cookies.get('user') ? true : false
     };
   }
-
+  handleLogin = () => {
+    this.setState({isLogged: true})
+  }
+  handleLogout = () => {
+    this.setState({isLogged: false})
+  }
 
   render() {
     const { isLogged } = this.state;
@@ -24,18 +28,22 @@ class App extends Component {
       <div className="App">
         
         {isLogged ? (
+            <Switch>
             <UserProvider>
-            <Navbar />
-            <Route exact path="/" component={Photos} />
-            <Route exact path="/profile" component={Photos}  />
-            <Route exact path="/logout" component={Logout}  />
+              
+              <Route exact path="/" render={props => <Photos />} />
+              <Route exact path="/profile" render={props => <Photos />} />
+              <Route exact path="/logout" render={props => <Logout {...props} logout={this.handleLogout} />} />
+              
             </UserProvider>
+            </Switch>
+            
         ) : (
-          <>
-          <Route exact path="/" component={Login}  />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          </>
+          <Switch>
+            <Route exact path="/" render={props => <Login {...props} login={this.handleLogin} />} />
+            <Route exact path="/login" render={props => <Login {...props} login={this.handleLogin} />} />
+            <Route exact path="/register" render={props => <Register />} />
+          </Switch>
         )}
         
         </div>

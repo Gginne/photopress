@@ -4,16 +4,19 @@ import UserContext from "../context/UserContext"
 
 class Photos extends Component {
     static contextType = UserContext
+    
     constructor(){
         super()
         this.state = {
+          username: "",
           photos: []
         }
       }
     
     async componentDidMount(){
-      const user = this.context
-      console.log(user)
+      const {username, id} = this.context.user.user
+      
+      this.setState({username})
     }
     
     toBase64(arr) {
@@ -23,10 +26,10 @@ class Photos extends Component {
         );
       }
     render() {
-        const {photos} = this.state
+        const {photos, username} = this.state
         return (
           <div>
-            <h1>Photos</h1>
+            <h1>Photos of {username} </h1>
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)

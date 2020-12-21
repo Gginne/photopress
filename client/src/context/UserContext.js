@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Cookies from "js-cookie"
+import Navbar from "../components/Navbar"
 const UserContext = React.createContext()
 
 
@@ -18,7 +19,7 @@ class UserProvider extends Component {
       const { children } = this.props
       const { user } = this.state
       const { setUser } = this
-  
+     
       return (
         <UserContext.Provider
           value={{
@@ -26,6 +27,7 @@ class UserProvider extends Component {
             setUser,
           }}
         >
+          <Navbar />
           {children}
         </UserContext.Provider>
       )
