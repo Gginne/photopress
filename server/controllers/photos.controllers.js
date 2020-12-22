@@ -25,6 +25,7 @@ class PhotoController{
         try{
             //Retrieve data
             const {path, filename, mimetype} = req.file
+            console.log(req.file)
             const {title, notes} = req.body
             const author = req.user.id
             //Set Image Buffer
