@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from "../context/UserContext"
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios'
 
 class Photos extends Component {
@@ -78,16 +79,21 @@ class Photos extends Component {
               <input type="text" onChange={this.handleChange} value={notes} name="notes" />
               <button type="submit">Submit</button>
             </form>
+            <br></br>
+            <Grid container spacing={1}>
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <div key={photo._id}>
-                <h2>{photo.title}</h2>
-                <img src={`data:image/png;base64,${img}`} alt={photo.title} width="200px"/>
-                </div>
+                <Grid container item xs={12} sm={12} md={6} lg={4} spacing={3} key={photo._id}>
+                  <div>
+                    <h2>{photo.title}</h2>
+                    <img src={`data:image/png;base64,${img}`} alt={photo.title} width="200px"/>
+                  </div>
+                </Grid>
               )
             })}
+            </Grid>
           </div>
         )
       }
