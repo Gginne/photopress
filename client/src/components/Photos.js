@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserContext from "../context/UserContext"
-//import axios from 'axios'
+import axios from 'axios'
 
 class Photos extends Component {
     static contextType = UserContext
@@ -9,14 +9,40 @@ class Photos extends Component {
         super()
         this.state = {
           username: "",
-          photos: []
+          photos: [],
+          title: "",
+          notes: ""
         }
       }
     
-    async componentDidMount(){
-      const {username, id} = this.context.user.user
-      
+    componentDidMount(){
+      const {username} = this.context.user.user
       this.setState({username})
+    }
+
+    handleChange = e => {
+      this.setState({
+          [e.target.name]: e.target.value
+      })
+    }
+
+    handleSubmit = async e => {
+      e.preventDefault()
+      const {title, notes} = this.state
+      const {token} = this.context.user
+
+      const formData = new FormData();
+      formData.append('image',  e.target.image.files[0]);
+      formData.append('title', title);
+      formData.append('notes', notes);
+
+      const response = await axios.post('/api/photos', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          "x-auth-token": String(token)
+      }});
+        
+      console.log(token)
     }
     
     toBase64(arr) {
@@ -26,10 +52,16 @@ class Photos extends Component {
         );
       }
     render() {
-        const {photos, username} = this.state
+        const {photos, username, title, notes} = this.state
         return (
           <div>
             <h1>Photos of {username} </h1>
+            <form method="POST" onSubmit={e => this.handleSubmit(e)} encType="multipart/form-data">
+              <input type="file" name="image" />
+              <input type="text" onChange={this.handleChange} value={title} name="title" />
+              <input type="text" onChange={this.handleChange} value={notes} name="notes" />
+              <button type="submit">Submit</button>
+            </form>
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
