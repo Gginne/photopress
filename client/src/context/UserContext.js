@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Cookies from "js-cookie"
-import Navbar from "../components/Navbar"
+import Layout  from "../components/Layout"
 const UserContext = React.createContext()
 
 
@@ -27,8 +27,10 @@ class UserProvider extends Component {
             setUser,
           }}
         >
-          <Navbar />
-          {children}
+          <Layout>
+            {children}
+          </Layout>
+          
         </UserContext.Provider>
       )
     }
