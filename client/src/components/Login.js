@@ -27,7 +27,7 @@ class Login extends Component {
         // Extract the JWT from the response
         const {data} = response
 
-        Cookies.set('user', data, {expires: 1})
+        Cookies.set('user', data, {expires: 1/24})
         this.props.login()
         this.props.history.push("/")
         //...

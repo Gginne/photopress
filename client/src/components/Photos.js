@@ -16,8 +16,21 @@ class Photos extends Component {
       }
     
     componentDidMount(){
-      const {username} = this.context.user.user
+      const {username, id} = this.context.user.user
       this.setState({username})
+      this.getPhotos()
+    }
+
+    getPhotos = async e => {
+      const {token} = this.context.user
+
+      const response = await axios.get('/api/photos', {
+        headers: {
+          "x-auth-token": String(token)
+      }});
+      
+      const {data} = response
+      this.setState({photos: data})
     }
 
     handleChange = e => {
@@ -42,15 +55,11 @@ class Photos extends Component {
           "x-auth-token": String(token)
       }});
         
-      console.log(token)
+      this.getPhotos()
     }
-    
-    toBase64(arr) {
-        //arr = new Uint8Array(arr) if it's an ArrayBuffer
-        return btoa(
-           arr.reduce((data, byte) => data + String.fromCharCode(byte), '')
-        );
-      }
+
+    toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
+
     render() {
         const {photos, username, title, notes} = this.state
         return (
@@ -66,7 +75,7 @@ class Photos extends Component {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <div>
+                <div key={photo._id}>
                 <h2>{photo.title}</h2>
                 <img src={`data:image/png;base64,${img}`} alt={photo.title} width="200px"/>
                 </div>
