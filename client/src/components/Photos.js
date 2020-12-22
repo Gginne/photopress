@@ -21,15 +21,18 @@ class Photos extends Component {
       this.getPhotos()
     }
 
+
     getPhotos = async e => {
       const {token} = this.context.user
 
       const response = await axios.get('/api/photos', {
         headers: {
+          "Content-Type": 'application/json',
           "x-auth-token": String(token)
       }});
       
       const {data} = response
+      //console.log(data)
       this.setState({photos: data})
     }
 
@@ -54,7 +57,11 @@ class Photos extends Component {
           'Content-Type': 'multipart/form-data',
           "x-auth-token": String(token)
       }});
-        
+
+      this.setState({
+        title: "",
+        notes: ""
+      })
       this.getPhotos()
     }
 
