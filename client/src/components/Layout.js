@@ -1,22 +1,40 @@
 import React, { Component } from 'react';
-import Navbar from "./Navbar"
-import Grid from '@material-ui/core/Grid';
+import NavDrawer from "./NavDrawer"
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = (theme) => ({
+    root: {
+      display: 'flex'
+    }
+})
 
 class Layout extends Component {
+    constructor(){
+        super()
+        this.state = {
+            drawerOpen: false
+        }
+    }
+
+    handleDrawerOpen = () => {
+        this.setState({drawerOpen: true})
+    };
+    
+    handleDrawerClose = () => {
+        this.setState({drawerOpen: false})
+    };
+
     render() {
-        const { children } = this.props
+        const { drawerOpen } = this.state
+        const { children, classes } = this.props
         return (
-            <Grid container spacing={1}>
-                <Grid container item xs={3} spacing={3}>
-                    <Navbar />
-                </Grid>
-                <Grid container item xs={9} spacing={1}>
-                    {children}
-                </Grid>
-            </Grid>
+            <div className={classes.root}>
+                <NavDrawer open={drawerOpen} handleOpen={() => this.handleDrawerOpen()} handleClose={() => this.handleDrawerClose()} />
+                {children}
+            </div>
            
         );
     }
 }
 
-export default Layout;
+export default withStyles(styles, {withTheme: true})(Layout);
