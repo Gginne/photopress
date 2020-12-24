@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import NavDrawer from "./NavDrawer"
 import {withStyles} from '@material-ui/core/styles';
-
-const styles = (theme) => ({
-    root: {
-      display: 'flex'
-    }
-})
+import styles from "./styles/LayoutStyles"
 
 class Layout extends Component {
     constructor(){

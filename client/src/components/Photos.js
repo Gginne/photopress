@@ -5,22 +5,8 @@ import axios from 'axios'
 import {withStyles  } from '@material-ui/core/styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
+import styles from "./styles/PhotoStyles"
 
-const styles = (theme) => ({
-  
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-});
 
 class Photos extends Component {
     static contextType = UserContext
@@ -95,10 +81,10 @@ class Photos extends Component {
         return (
           <div>
           <CssBaseline />
-   
+          
           <main className={classes.content}>
-            <div className={classes.toolbar}>
-            </div>
+          
+          <h1>Photos of {username}</h1>
           <div>
             <form method="POST" onSubmit={e => this.handleSubmit(e)} encType="multipart/form-data">
               <input type="file" name="image" />
@@ -112,7 +98,7 @@ class Photos extends Component {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <Grid item xs={12} sm={12} md={6} lg={4} key={photo._id}>
+                <Grid item xs={12} sm={12} md={6} lg={3} key={photo._id}>
                   <div>
                     <h2>{photo.title}</h2>
                     <img src={`data:image/png;base64,${img}`} alt={photo.title} width="175px"/>

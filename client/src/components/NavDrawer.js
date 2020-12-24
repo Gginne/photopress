@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import clsx from 'clsx';
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-
+import { Link } from "react-router-dom";
 import List from '@material-ui/core/List';
 
 import Divider from '@material-ui/core/Divider';
@@ -13,97 +13,93 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import PhotoIcon from '@material-ui/icons/Photo';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
+import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
-const drawerWidth = 240;
-
-const styles = (theme) => ({
-    
-    hide: {
-      display: 'none',
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-    },
-    drawerOpen: {
-      width: drawerWidth,
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    drawerClose: {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1,
-      },
-    },
-    toolbar: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-  });
+import styles from "./styles/NavDrawerStyles"
 
 class NavDrawer extends Component {
     render() {
-        const {classes, open, handleOpen, handleClose} = this.props
+        const { classes, open, handleOpen, handleClose } = this.props
         return (
             <Drawer
-            variant="permanent"
-            className={clsx(classes.drawer, {
-              [classes.drawerOpen]: open,
-              [classes.drawerClose]: !open,
-            })}
-            classes={{
-              paper: clsx({
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-              }),
-            }}
-          >
-            
-            <div className={classes.toolbar}>
-              <IconButton onClick={open ? handleClose : handleOpen}>
-                {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-              </IconButton>
-            </div>
-            <Divider />
-            <List bgcolor="secondary.main">
-              {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </Drawer>
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
+                        [classes.drawerOpen]: open,
+                        [classes.drawerClose]: !open,
+                    }),
+                }}
+            >
+
+                <div className={classes.toolbar}>
+                    <IconButton onClick={open ? handleClose : handleOpen}>
+                        {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List bgcolor="secondary.main">
+
+                    <Link to="/photos" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <PhotoIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Photo" />
+                        </ListItem>
+                    </Link>
+
+                    <Link to="/photos/new" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <AddPhotoAlternateIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="New Photo" />
+                        </ListItem>
+                    </Link>
+
+                    <Link to="/albums" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <PhotoLibraryIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Albums" />
+                        </ListItem>
+                    </Link>
+
+                    <Link to="/albums/new" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <AddToPhotosIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="New Album" />
+                        </ListItem>
+                    </Link>
+
+                </List>
+                <Divider />
+                <List>
+                    <Link to="/logout" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <ExitToAppIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
+
+                        </ListItem>
+                    </Link>
+
+                </List>
+            </Drawer>
         )
     }
 }
 
-export default withStyles(styles, {withTheme: true})(NavDrawer)
+export default withStyles(styles, { withTheme: true })(NavDrawer)
