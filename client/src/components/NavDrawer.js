@@ -56,15 +56,6 @@ class NavDrawer extends Component {
                         </ListItem>
                     </Link>
 
-                    <Link to="/photos/new" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AddPhotoAlternateIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="New Photo" />
-                        </ListItem>
-                    </Link>
-
                     <Link to="/albums" className={classes.link}>
                         <ListItem button>
                             <ListItemIcon>
@@ -74,6 +65,15 @@ class NavDrawer extends Component {
                         </ListItem>
                     </Link>
 
+                    <Link to="/photos/new" className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <AddPhotoAlternateIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="New Photo" />
+                        </ListItem>
+                    </Link>
+                    
                     <Link to="/albums/new" className={classes.link}>
                         <ListItem button>
                             <ListItemIcon>

@@ -25,7 +25,9 @@ class Layout extends Component {
         return (
             <div className={classes.root}>
                 <NavDrawer open={drawerOpen} handleOpen={() => this.handleDrawerOpen()} handleClose={() => this.handleDrawerClose()} />
-                {children}
+                <div className={classes.content}>
+                    {children}
+                </div>
             </div>
            
         );

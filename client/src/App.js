@@ -3,6 +3,7 @@ import { Route, Switch  } from "react-router-dom";
 import Login from "./components/Login"
 import Logout from "./components/Logout"
 import Photos from "./components/Photos"
+import PhotoForm from "./components/PhotoForm"
 import Register from "./components/Register"
 import Cookies from "js-cookie"
 import {UserProvider} from "./context/UserContext"
@@ -31,7 +32,8 @@ class App extends Component {
             <Switch>
               <UserProvider>
                 <Route exact path="/" render={props => <Photos />} />
-                <Route exact path="/profile" render={props => <Photos />} />
+                <Route exact path="/photos" render={props => <Photos />} />
+                <Route exact path="/photos/new" render={props => <PhotoForm {...props} />} />
                 <Route exact path="/logout" render={props => <Logout {...props} logout={this.handleLogout} />} />
               </UserProvider>
             </Switch>
