@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import UserContext from "../context/UserContext"
-import Grid from '@material-ui/core/Grid';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
 import axios from 'axios'
 import {withStyles  } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import styles from "./styles/PhotoStyles"
 
 
@@ -46,23 +49,28 @@ class Photos extends Component {
         const {classes, theme} = this.props
         return (
           <div>
-          <CssBaseline />
           <h1>Photos of {username}</h1>
-          <div>
-            <Grid container >
+          <div className={classes.root}>
+            <GridList cellHeight={180} spacing={1} cols={5} className={classes.gridList} >
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <Grid item xs={12} sm={12} md={6} lg={3} key={photo._id}>
-                  <div>
-                    <h2>{photo.title}</h2>
-                    <img src={`data:image/png;base64,${img}`} alt={photo.title} width="175px"/>
-                  </div>
-                </Grid>
+                <GridListTile key={photo._id} cols={1}>
+                  <img src={`data:image/png;base64,${img}`} alt={photo.title}/>
+                  <GridListTileBar
+                  title={photo.title}
+                  actionIcon={
+                    <IconButton aria-label={`info about ${photo.title}`}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+                </GridListTile>
+
               )
             })}
-            </Grid>
+            </GridList>
           </div>
         </div>
         )
