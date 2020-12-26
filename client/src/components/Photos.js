@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 import UserContext from "../context/UserContext"
+import PhotoDialog from "./PhotoDialog"
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import axios from 'axios'
+import withWidth from '@material-ui/core/withWidth';
 import {withStyles  } from '@material-ui/core/styles';
 import styles from "./styles/PhotoStyles"
 
@@ -17,7 +19,9 @@ class Photos extends Component {
         super()
         this.state = {
           username: "",
-          photos: []
+          photos: [],
+          openDialog: false,
+          dialogPhoto: null
         }
       }
     
@@ -42,21 +46,38 @@ class Photos extends Component {
       this.setState({photos: data})
     }
 
+    handleDialogOpen = photo => {
+      this.setState({
+        openDialog: true,
+        dialogPhoto: photo
+      })
+    }
+
+    handleDialogClose = () => {
+      this.setState({
+        openDialog: false,
+      })
+    }
+
     toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
 
     render() {
-        const {photos, username, title, notes} = this.state
+        const {photos, username, openDialog, dialogPhoto} = this.state
         const {classes, theme} = this.props
         return (
           <div>
           <h1>Photos of {username}</h1>
+          {
+            dialogPhoto != null ? <PhotoDialog open={openDialog} photo={dialogPhoto} close={() => this.handleDialogClose()}/> : ""
+          }
+          
           <div className={classes.root}>
-            <GridList cellHeight={180} spacing={1} cols={5} className={classes.gridList} >
+            <GridList cellHeight={180} spacing={2} cols={5} className={classes.gridList} >
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <GridListTile key={photo._id} cols={1}>
+                <GridListTile key={photo._id} cols={1} onClick={() => this.handleDialogOpen(photo)}>
                   <img src={`data:image/png;base64,${img}`} alt={photo.title}/>
                   <GridListTileBar
                   title={photo.title}
