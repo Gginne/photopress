@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import UserContext from "../context/UserContext"
-import Grid from '@material-ui/core/Grid';
 import axios from 'axios'
-import {withStyles  } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import UserContext from "../context/UserContext"
+import PhotoDialog from "./PhotoDialog"
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import {withStyles} from '@material-ui/core/styles';
 import styles from "./styles/PhotoStyles"
 
 
@@ -14,55 +18,85 @@ class Photos extends Component {
         super()
         this.state = {
           username: "",
-          photos: []
+          photos: [],
+          openDialog: false,
+          dialogPhoto: null
         }
       }
     
     componentDidMount(){
-      const {username, id} = this.context.user.user
+      const {username} = this.context.user.user
       this.setState({username})
       this.getPhotos()
     }
 
-
     getPhotos = async e => {
       const {token} = this.context.user
 
-      const response = await axios.get('/api/photos', {
-        headers: {
-          "Content-Type": 'application/json',
-          "x-auth-token": String(token)
-      }});
-      
-      const {data} = response
-      //console.log(data)
-      this.setState({photos: data})
+      try{
+        const response = await axios.get('/api/photos', {
+          headers: {
+            "Content-Type": 'application/json',
+            "x-auth-token": String(token)
+        }});
+        const {data} = response
+        this.setState({photos: data})
+      } catch(error){
+        console.log(error)
+      }
+   
+    }
+
+    handleDialogOpen = photo => {
+      this.setState({
+        openDialog: true,
+        dialogPhoto: photo
+      })
+    }
+
+    handleDialogClose = () => {
+      this.setState({
+        openDialog: false,
+        dialogPhoto: null
+      })
     }
 
     toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
 
     render() {
-        const {photos, username, title, notes} = this.state
-        const {classes, theme} = this.props
+        const {photos, username, openDialog, dialogPhoto} = this.state
+        const {classes} = this.props
+       
         return (
           <div>
-          <CssBaseline />
           <h1>Photos of {username}</h1>
-          <div>
-            <Grid container >
+          {
+            dialogPhoto != null ? 
+            <PhotoDialog open={openDialog} photo={dialogPhoto} close={() => this.handleDialogClose()}/> 
+            : ""
+          }
+          
+          <div className={classes.root}>
+            <GridList cellHeight={180} spacing={2} cols={5} className={classes.gridList} >
             {photos.map(photo => {
               const {buffer} = photo.image
               const img = this.toBase64(buffer.data)
               return (
-                <Grid item xs={12} sm={12} md={6} lg={3} key={photo._id}>
-                  <div>
-                    <h2>{photo.title}</h2>
-                    <img src={`data:image/png;base64,${img}`} alt={photo.title} width="175px"/>
-                  </div>
-                </Grid>
+                <GridListTile key={photo._id} cols={1} onClick={() => this.handleDialogOpen(photo)}>
+                  <img src={`data:image/png;base64,${img}`} alt={photo.title}/>
+                  <GridListTileBar
+                  title={photo.title}
+                  actionIcon={
+                    <IconButton aria-label={`info about ${photo.title}`}>
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+                </GridListTile>
+
               )
             })}
-            </Grid>
+            </GridList>
           </div>
         </div>
         )
