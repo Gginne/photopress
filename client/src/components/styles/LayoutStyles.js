@@ -1,6 +1,6 @@
 const styles = (theme) => ({
     root: {
-      display: 'flex'
+      display: 'flex',
     },
     content: {
       flexGrow: 1,

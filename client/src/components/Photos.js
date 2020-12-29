@@ -7,8 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import withWidth from '@material-ui/core/withWidth';
-import {withStyles  } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import styles from "./styles/PhotoStyles"
 
 
@@ -26,24 +25,26 @@ class Photos extends Component {
       }
     
     componentDidMount(){
-      const {username, id} = this.context.user.user
+      const {username} = this.context.user.user
       this.setState({username})
       this.getPhotos()
     }
 
-
     getPhotos = async e => {
       const {token} = this.context.user
 
-      const response = await axios.get('/api/photos', {
-        headers: {
-          "Content-Type": 'application/json',
-          "x-auth-token": String(token)
-      }});
-      
-      const {data} = response
-      //console.log(data)
-      this.setState({photos: data})
+      try{
+        const response = await axios.get('/api/photos', {
+          headers: {
+            "Content-Type": 'application/json',
+            "x-auth-token": String(token)
+        }});
+        const {data} = response
+        this.setState({photos: data})
+      } catch(error){
+        console.log(error)
+      }
+   
     }
 
     handleDialogOpen = photo => {
@@ -56,6 +57,7 @@ class Photos extends Component {
     handleDialogClose = () => {
       this.setState({
         openDialog: false,
+        dialogPhoto: null
       })
     }
 
@@ -63,12 +65,15 @@ class Photos extends Component {
 
     render() {
         const {photos, username, openDialog, dialogPhoto} = this.state
-        const {classes, theme} = this.props
+        const {classes} = this.props
+       
         return (
           <div>
           <h1>Photos of {username}</h1>
           {
-            dialogPhoto != null ? <PhotoDialog open={openDialog} photo={dialogPhoto} close={() => this.handleDialogClose()}/> : ""
+            dialogPhoto != null ? 
+            <PhotoDialog open={openDialog} photo={dialogPhoto} close={() => this.handleDialogClose()}/> 
+            : ""
           }
           
           <div className={classes.root}>

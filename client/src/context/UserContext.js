@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import Cookies from "js-cookie"
 import Layout  from "../components/Layout"
-const UserContext = React.createContext()
 
+const UserContext = React.createContext()
 
 class UserProvider extends Component {
     // Context state
@@ -37,5 +37,5 @@ class UserProvider extends Component {
   }
 
 export const UserConsumer = UserContext.Consumer
-export { UserProvider }
-export default UserContext
+export {UserProvider} 
+export default  UserContext

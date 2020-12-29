@@ -33,13 +33,16 @@ class PhotoForm extends Component {
       formData.append('image',  e.target.image.files[0]);
       formData.append('title', title);
       formData.append('notes', notes);
-
-      const response = await axios.post('/api/photos', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          "x-auth-token": String(token)
-      }});
-
+      
+      try{
+        await axios.post('/api/photos', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            "x-auth-token": String(token)
+        }});
+      }catch(error){
+        console.log(error)
+      }
       this.setState({
         title: "",
         notes: ""
@@ -50,7 +53,6 @@ class PhotoForm extends Component {
 
     render() {
         const {title, notes} = this.state
-        const {classes, theme} = this.props
         return (
           <div>
           <CssBaseline />
