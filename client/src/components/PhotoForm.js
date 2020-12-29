@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import UserContext from "../context/UserContext"
 import axios from 'axios'
 import {withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import styles from "./styles/PhotoFormStyles"
 
 
@@ -55,7 +54,6 @@ class PhotoForm extends Component {
         const {title, notes} = this.state
         return (
           <div>
-          <CssBaseline />
           <h1>New Photo</h1>
           <div>
             <form method="POST" onSubmit={e => this.handleSubmit(e)} encType="multipart/form-data">

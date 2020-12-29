@@ -34,7 +34,7 @@ class Photos extends Component {
       const {token} = this.context.user
 
       try{
-        const response = await axios.get('/api/photos', {
+        const response = await axios.get('http://localhost:5000/api/photos', {
           headers: {
             "Content-Type": 'application/json',
             "x-auth-token": String(token)
