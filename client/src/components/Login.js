@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cookies from "js-cookie"
 import axios from 'axios'
+import {FormControl, InputLabel, Input, FormHelperText} from '@material-ui/core';
 
 class Login extends Component {
     constructor(){
@@ -43,9 +44,14 @@ class Login extends Component {
             <div>
                 <h1>Login</h1>
                 <form method="POST" onSubmit={e => this.handleSubmit(e)}>
+                <FormControl>
+                    <InputLabel htmlFor="email">Email address</InputLabel>
+                    <Input id="email" name="email" value={email} name="email" onChange={e => this.handleChange(e)} aria-describedby="email-helper-text" />
+                    <FormHelperText id="email-helper-text">We'll never share your email.</FormHelperText>
+                </FormControl>
                     <input type="email" value={email} name="email" onChange={e => this.handleChange(e)} />
                     <input type="password" value={password} name="password" onChange={e => this.handleChange(e)} />
-                    <button>Sign in</button>
+                    <button type="submit">Sign in</button>
                 </form>
             </div>
         )
