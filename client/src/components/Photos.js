@@ -30,7 +30,7 @@ class Photos extends Component {
       this.getPhotos()
     }
 
-    getPhotos = async e => {s
+    getPhotos = async e => {
       const {token} = this.context.user
 
       try{
