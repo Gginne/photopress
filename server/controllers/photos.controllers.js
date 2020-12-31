@@ -35,9 +35,9 @@ class PhotoController{
             const author = req.user.id
             //Set Image Buffer
             const buffer = fs.readFileSync(path)
-            //Save Image
-            const image = {buffer, path, filename, mimetype}
-            //Sav
+            //Save Image to S3 Bucket
+            const image = await imageUpload(filename, buffer, mimetype)
+            //Save Photo to mongoDB
             const newPhoto = new Photo({title, image, notes, author})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})

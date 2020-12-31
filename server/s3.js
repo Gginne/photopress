@@ -12,11 +12,11 @@ const BUCKET_NAME = "photopress"
 
 const s3Bucket = new AWS.S3({params: {Bucket: BUCKET_NAME}})
 
-const imageUpload = (path, buffer, encoding, type) => {
+const imageUpload = (path, buffer, type) => {
     const data = {
         Key: path,
         Body: buffer,
-        ContentEncoding: encoding,
+        ContentEncoding: 'base64',
         ContentType: type,
         ACL: 'public-read'
     }
@@ -26,7 +26,7 @@ const imageUpload = (path, buffer, encoding, type) => {
             if(err){
                 rej(err)
             } else{
-                res(`https://s3.amazonaws.com/${BUCKET_NAME}/${path}`)
+                res(`${BUCKET_NAME}.s3.amazonaws.com/${path}`)
             }
         })
     })
