@@ -1,6 +1,7 @@
 //Imports
 const Photo = require("../models/Photo")
 const fs = require("fs")
+const imageUpload = require("../s3")
 
 //Controller Class
 class PhotoController{
@@ -36,6 +37,7 @@ class PhotoController{
             const buffer = fs.readFileSync(path)
             //Save Image
             const image = {buffer, path, filename, mimetype}
+            //Sav
             const newPhoto = new Photo({title, image, notes, author})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
