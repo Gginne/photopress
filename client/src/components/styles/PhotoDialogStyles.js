@@ -10,11 +10,15 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
   dialogImg: {
-    width: "100%",
+    maxWidth: "70vw",
+    minWidth: "23vw",
     height: "auto",
-    maxWidth: "50vw"
+    maxHeight: "60vh",
+    margin: "auto"
   },
- 
+  paper: {
+    maxHeight: '80vh',
+  }
 });
 
   export default styles

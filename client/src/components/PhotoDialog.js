@@ -25,7 +25,7 @@ class PhotoDialog extends Component {
             onClose={this.handleClose} 
             aria-labelledby="customized-dialog-title" 
             open={open}
-           
+            maxWidth = {'lg'}
             PaperProps ={{
                 classes: {
                  root: classes.paper
@@ -37,9 +37,6 @@ class PhotoDialog extends Component {
                 </DialogTitle>
                 <DialogContent dividers>
                 <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
-                <Typography gutterBottom>
-                    {photo.notes}
-                </Typography>
                 
                 </DialogContent>
                 <DialogActions>
