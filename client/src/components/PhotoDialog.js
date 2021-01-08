@@ -44,11 +44,7 @@ class PhotoDialog extends Component {
             open={open}
             fullWidth={showMore}
             maxWidth = {showMore ? 'sm' : 'lg'}
-            PaperProps ={{
-                classes: {
-                 root: classes.paper
-                }
-              }}
+            PaperProps ={{classes: {root: classes.paper}}}
             >
                 <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
                     <Typography variant="h6">{photo.title}</Typography>
@@ -58,20 +54,18 @@ class PhotoDialog extends Component {
                         </IconButton>
                         <IconButton aria-label="delete">
                             <DeleteIcon />
-                        </IconButton>
-                        
+                        </IconButton> 
                     </div>
                 </DialogTitle>
                 <DialogContent dividers>
                 {
                     showMore ?
                     <div>
+                        <p>Date: {photo.created_at} </p>
                         {photo.notes}
+                        
                     </div>
-                    : 
-                    <>
-                        <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
-                    </>
+                    : <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
                 }
                 
                 </DialogContent>

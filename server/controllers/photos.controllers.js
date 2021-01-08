@@ -30,13 +30,13 @@ class PhotoController{
             //Retrieve data
             const {path, filename, mimetype} = req.file
             console.log(req.file)
-            const {title, notes} = req.body
+            const {title, notes, tags} = req.body
             const author = req.user.id
             //Set Image Buffer
             const buffer = fs.readFileSync(path)
             //Save Image
             const image = {buffer, path, filename, mimetype}
-            const newPhoto = new Photo({title, image, notes, author})
+            const newPhoto = new Photo({title, image, notes, tags, author})
             await newPhoto.save()
             res.json({message: `Photo id ${newPhoto._id} Posted`})
             console.log(newPhoto)
