@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import axios from "axios"
+import {Link} from "react-router-dom"
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 class Register extends Component {
     constructor(){
@@ -37,16 +40,32 @@ class Register extends Component {
     render() {
         const {username, email, password} = this.state
         return (
-            <div>
+            <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
                 <h1>Register</h1>
                 <form method="POST" onSubmit={e => this.handleSubmit(e)}>
-                    <input value={username} name="username" onChange={e => this.handleChange(e)} />
-                    <input type="email" value={email} name="email" onChange={e => this.handleChange(e)} />
-                    <input type="password" value={password} name="password" onChange={e => this.handleChange(e)} />
-                    <button>Sign up</button>
+                    <div>
+                        <TextField label="Email" name="email" onChange={this.handleChange} margin="normal" 
+                            fullWidth value={email} variant="outlined" />
+                    </div>
+                    <div>
+                        <TextField label="Username" name="username" onChange={this.handleChange} margin="normal" 
+                            fullWidth value={username} variant="outlined" />
+                    </div>
+                    <div>
+                        <TextField label="Password" name="password" onChange={this.handleChange} margin="normal" 
+                            fullWidth value={password} variant="outlined" />
+                    </div>
+                    <br></br>
+                    <div>
+                        <Button variant="contained" color="primary" type="submit" disableElevation> Sign Up </Button>
+                    </div>
+                    <br></br>
+                    <div>
+                        <Link style={{textDecoration: "none"}} to="/login">Login</Link>
+                    </div>
                 </form>
             </div>
         )
     }
 }
-export default  Register
+export default Register

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Cookies from "js-cookie"
 import axios from 'axios'
-import {FormControl, InputLabel, Input, FormHelperText} from '@material-ui/core';
+import {Link} from "react-router-dom"
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 class Login extends Component {
     constructor(){
@@ -41,17 +43,25 @@ class Login extends Component {
     render() {
         const {email, password} = this.state
         return (
-            <div>
+            <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
                 <h1>Login</h1>
                 <form method="POST" onSubmit={e => this.handleSubmit(e)}>
-                <FormControl>
-                    <InputLabel htmlFor="email">Email address</InputLabel>
-                    <Input id="email" name="email" value={email} name="email" onChange={e => this.handleChange(e)} aria-describedby="email-helper-text" />
-                    <FormHelperText id="email-helper-text">We'll never share your email.</FormHelperText>
-                </FormControl>
-                    <input type="email" value={email} name="email" onChange={e => this.handleChange(e)} />
-                    <input type="password" value={password} name="password" onChange={e => this.handleChange(e)} />
-                    <button type="submit">Sign in</button>
+                    <div>
+                        <TextField label="Email" name="email" onChange={this.handleChange} margin="normal" 
+                            fullWidth value={email} variant="outlined" />
+                    </div>
+                    <div>
+                        <TextField label="Password" name="password" onChange={this.handleChange} margin="normal" 
+                            fullWidth value={password} variant="outlined" />
+                    </div>
+                    <br></br>
+                    <div>
+                        <Button variant="contained" color="primary" type="submit" disableElevation> Sign In </Button>
+                    </div>
+                    <br></br>
+                    <div>
+                        <Link style={{textDecoration: "none"}} to="/register">Register</Link>
+                    </div>
                 </form>
             </div>
         )
