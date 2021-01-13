@@ -53,7 +53,7 @@ class Register extends Component {
                     </div>
                     <div>
                         <TextField label="Password" name="password" onChange={this.handleChange} margin="normal" 
-                            fullWidth value={password} variant="outlined" />
+                            fullWidth value={password} variant="outlined" type="password" />
                     </div>
                     <br></br>
                     <div>
