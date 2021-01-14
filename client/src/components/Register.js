@@ -61,7 +61,7 @@ class Register extends Component {
                     </div>
                     <br></br>
                     <div>
-                        <Link style={{textDecoration: "none"}} to="/login">Login</Link>
+                        Have an account? <Link style={{textDecoration: "none"}} to="/login">Login</Link>
                     </div>
                 </form>
             </div>

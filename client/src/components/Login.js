@@ -60,7 +60,7 @@ class Login extends Component {
                     </div>
                     <br></br>
                     <div>
-                        <Link style={{textDecoration: "none"}} to="/register">Register</Link>
+                        Don't have an account? <Link style={{textDecoration: "none"}} to="/register">Register</Link>
                     </div>
                 </form>
             </div>
