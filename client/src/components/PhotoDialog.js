@@ -15,8 +15,8 @@ import styles from "./styles/PhotoDialogStyles"
 
 class PhotoDialog extends Component {
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             showMore: false
         }
@@ -28,6 +28,12 @@ class PhotoDialog extends Component {
 
     handleShowMore = () => {
         this.setState(prevState => ({showMore: !prevState.showMore}))
+    }
+
+    handleDelete = () => {
+        const {_id} = this.props.photo
+        this.props.handleClose()
+        this.props.delete(_id)
     }
 
     toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
@@ -52,7 +58,7 @@ class PhotoDialog extends Component {
                         <IconButton aria-label="more" onClick={this.handleShowMore}>
                             {showMore ? <PhotoIcon /> : <InfoIcon /> }
                         </IconButton>
-                        <IconButton aria-label="delete">
+                        <IconButton aria-label="delete" onClick={this.handleDelete}>
                             <DeleteIcon />
                         </IconButton> 
                     </div>

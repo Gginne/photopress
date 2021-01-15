@@ -23,7 +23,7 @@ class PhotoForm extends Component {
 
     handleChange = e => {
       let {name, value} = e.target
-      if(name == "image"){
+      if(name === "image"){
         this.setState({[name]: URL.createObjectURL(e.target.files[0])})
       } else {
         this.setState({[name]: value})

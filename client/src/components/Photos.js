@@ -61,6 +61,24 @@ class Photos extends Component {
       })
     }
 
+    handlePhotoDelete = async id => {
+      const {token} = this.context.user
+
+      try{
+        await axios.delete(`/api/photos/${id}`, {
+          headers: {
+            "Content-Type": 'application/json',
+            "x-auth-token": String(token)
+        }});
+        
+        this.getPhotos()
+       
+       
+      } catch(error){
+        console.log(error)
+      }
+    }
+
     toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
 
     render() {
@@ -72,7 +90,7 @@ class Photos extends Component {
           <h1>Photos of {username}</h1>
           {
             dialogPhoto != null ? 
-            <PhotoDialog open={openDialog} photo={dialogPhoto} close={() => this.handleDialogClose()}/> 
+            <PhotoDialog open={openDialog} photo={dialogPhoto} delete={this.handlePhotoDelete} close={() => this.handleDialogClose()}/> 
             : ""
           }
           
