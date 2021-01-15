@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import PhotoIcon from '@material-ui/icons/Photo';
 
+import ConfirmDialog from "./ConfirmDialog"
 import styles from "./styles/PhotoDialogStyles"
 
 class PhotoDialog extends Component {
@@ -18,7 +19,8 @@ class PhotoDialog extends Component {
     constructor(props){
         super(props)
         this.state = {
-            showMore: false
+            showMore: false,
+            confirmDelete: false,
         }
     }
 
@@ -30,9 +32,13 @@ class PhotoDialog extends Component {
         this.setState(prevState => ({showMore: !prevState.showMore}))
     }
 
+    handleConfirmDelete = st => {
+        this.setState({confirmDelete: st})
+    };
+
     handleDelete = () => {
         const {_id} = this.props.photo
-        this.props.handleClose()
+        this.handleClose()
         this.props.delete(_id)
     }
 
@@ -40,7 +46,7 @@ class PhotoDialog extends Component {
     render() {
         
         const {open, photo, classes} = this.props
-        const {showMore} = this.state
+        const {showMore, confirmDelete} = this.state
         const {buffer} = photo.image
         const img = this.toBase64(buffer.data)
         return (
@@ -58,7 +64,7 @@ class PhotoDialog extends Component {
                         <IconButton aria-label="more" onClick={this.handleShowMore}>
                             {showMore ? <PhotoIcon /> : <InfoIcon /> }
                         </IconButton>
-                        <IconButton aria-label="delete" onClick={this.handleDelete}>
+                        <IconButton aria-label="delete" onClick={() => this.handleConfirmDelete(true)}>
                             <DeleteIcon />
                         </IconButton> 
                     </div>
@@ -73,6 +79,13 @@ class PhotoDialog extends Component {
                     </div>
                     : <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
                 }
+
+                <ConfirmDialog 
+                    title="Delete Photo?"
+                    open={confirmDelete}
+                    setOpen={this.handleConfirmDelete}
+                    onConfirm={this.handleDelete}
+                />
                 
                 </DialogContent>
                 
