@@ -43,6 +43,9 @@ class PhotoDialog extends Component {
     }
 
     toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
+
+    formatDateTime = ds => new Date(ds).toLocaleString()
+
     render() {
         
         const {open, photo, classes} = this.props
@@ -73,8 +76,9 @@ class PhotoDialog extends Component {
                 {
                     showMore ?
                     <div>
-                        <p>Date: {photo.created_at} </p>
-                        {photo.notes}
+                        <p>{photo.notes}</p>
+                        <p>Date: {this.formatDateTime(photo.created_at)} </p>
+                        
                         
                     </div>
                     : <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />

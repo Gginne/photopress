@@ -39,6 +39,7 @@ class Photos extends Component {
             "Content-Type": 'application/json',
             "x-auth-token": String(token)
         }});
+ 
         const {data} = response
         this.setState({photos: data})
       } catch(error){
