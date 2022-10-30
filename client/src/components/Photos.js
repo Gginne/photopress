@@ -27,6 +27,7 @@ class Photos extends Component {
     componentDidMount(){
       const {username} = this.context.user.user
       this.setState({username})
+    
       this.getPhotos()
     }
 
@@ -41,7 +42,13 @@ class Photos extends Component {
         }});
  
         const {data} = response
-        this.setState({photos: data})
+
+        const photos = data.map(photo => {
+          const {buffer} = photo.image
+          return {...photo, src: `data:image/png;base64,${this.toBase64(buffer.data)}`}
+        })
+
+        this.setState({photos})
       } catch(error){
         console.log(error)
       }
@@ -98,11 +105,10 @@ class Photos extends Component {
           <div className={classes.root}>
             <GridList cellHeight={180} spacing={2} cols={5} className={classes.gridList} >
             {photos.map(photo => {
-              const {buffer} = photo.image
-              const img = this.toBase64(buffer.data)
+              
               return (
                 <GridListTile key={photo._id} cols={1} onClick={() => this.handleDialogOpen(photo)}>
-                  <img src={`data:image/png;base64,${img}`} alt={photo.title}/>
+                  <img src={photo.src} alt={photo.title}/>
                   <GridListTileBar
                   title={photo.title}
                   actionIcon={

@@ -42,7 +42,6 @@ class PhotoDialog extends Component {
         this.props.delete(_id)
     }
 
-    toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
 
     formatDateTime = ds => new Date(ds).toLocaleString()
 
@@ -50,8 +49,7 @@ class PhotoDialog extends Component {
         
         const {open, photo, classes} = this.props
         const {showMore, confirmDelete} = this.state
-        const {buffer} = photo.image
-        const img = this.toBase64(buffer.data)
+
         return (
             <Dialog 
             onClose={this.handleClose} 
@@ -77,11 +75,11 @@ class PhotoDialog extends Component {
                     showMore ?
                     <div>
                         <p>{photo.notes}</p>
-                        <p>Date: {this.formatDateTime(photo.created_at)} </p>
+                        <p>Uploaded: {this.formatDateTime(photo.created_at)} </p>
                         
                         
                     </div>
-                    : <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
+                    : <img src={photo.src} alt={photo.title} className={classes.dialogImg} />
                 }
 
                 <ConfirmDialog 
