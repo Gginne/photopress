@@ -49,13 +49,12 @@ class PhotoController{
 
     async put(req, res){
         const {title, notes} = req.body
-        const update = await Photo.findOneAndUpdate(req.params.photoId, {title, notes})
+        const update = await Photo.findByIdAndUpdate(req.params.photoId, {title, notes})
         res.json({message: `Updated Photo id ${req.params.photoId}`})
     }
     
     async delete(req, res){
-        const deletedPhoto = await Photo.findOneAndDelete(req.params.photoId)
-        console.log("DELETED", deletedPhoto)
+        const deletedPhoto = await Photo.findByIdAndDelete(req.params.photoId)
         res.json({message: `Deleted Image ${deletedPhoto.title}`})
     }
 }

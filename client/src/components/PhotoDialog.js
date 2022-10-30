@@ -11,14 +11,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import PhotoIcon from '@material-ui/icons/Photo';
 
+import ConfirmDialog from "./ConfirmDialog"
 import styles from "./styles/PhotoDialogStyles"
 
 class PhotoDialog extends Component {
 
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
-            showMore: false
+            showMore: false,
+            confirmDelete: false,
         }
     }
 
@@ -30,13 +32,24 @@ class PhotoDialog extends Component {
         this.setState(prevState => ({showMore: !prevState.showMore}))
     }
 
-    toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
+    handleConfirmDelete = st => {
+        this.setState({confirmDelete: st})
+    };
+
+    handleDelete = () => {
+        const {_id} = this.props.photo
+        this.handleClose()
+        this.props.delete(_id)
+    }
+
+
+    formatDateTime = ds => new Date(ds).toLocaleString()
+
     render() {
         
         const {open, photo, classes} = this.props
-        const {showMore} = this.state
-        const {buffer} = photo.image
-        const img = this.toBase64(buffer.data)
+        const {showMore, confirmDelete} = this.state
+
         return (
             <Dialog 
             onClose={this.handleClose} 
@@ -52,7 +65,7 @@ class PhotoDialog extends Component {
                         <IconButton aria-label="more" onClick={this.handleShowMore}>
                             {showMore ? <PhotoIcon /> : <InfoIcon /> }
                         </IconButton>
-                        <IconButton aria-label="delete">
+                        <IconButton aria-label="delete" onClick={() => this.handleConfirmDelete(true)}>
                             <DeleteIcon />
                         </IconButton> 
                     </div>
@@ -61,12 +74,20 @@ class PhotoDialog extends Component {
                 {
                     showMore ?
                     <div>
-                        <p>Date: {photo.created_at} </p>
-                        {photo.notes}
+                        <p>{photo.notes}</p>
+                        <p>Uploaded: {this.formatDateTime(photo.created_at)} </p>
+                        
                         
                     </div>
-                    : <img src={`data:image/png;base64,${img}`} alt={photo.title} className={classes.dialogImg} />
+                    : <img src={photo.src} alt={photo.title} className={classes.dialogImg} />
                 }
+
+                <ConfirmDialog 
+                    title="Delete Photo?"
+                    open={confirmDelete}
+                    setOpen={this.handleConfirmDelete}
+                    onConfirm={this.handleDelete}
+                />
                 
                 </DialogContent>
                 
