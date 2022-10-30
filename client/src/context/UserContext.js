@@ -7,12 +7,13 @@ const UserContext = React.createContext()
 class UserProvider extends Component {
     // Context state
     state = {
-      user: JSON.parse(Cookies.get('user'))
+      user: JSON.parse(Cookies.get('user')),
+      photos: []
     }
     
     // Method to update state
     setUser = (user) => {
-      this.setState((prevState) => ({ user }))
+      this.setState({user})
     }
   
     render() {
