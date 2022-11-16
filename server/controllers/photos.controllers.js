@@ -1,6 +1,7 @@
 //Imports
 const Photo = require("../models/Photo")
 const fs = require("fs")
+const { uploadFile } = require("../awsClient")
 
 //Controller Class
 class PhotoController{
@@ -32,9 +33,11 @@ class PhotoController{
             console.log(req.file)
             const {title, notes, tags} = req.body
             const author = req.user.id
-            //Set Image Buffer
+            //Save Image data to bucket
             const buffer = fs.readFileSync(path)
-            //Save Image
+            uploadFile(path, filename)
+            fs.unlinkSync(path)
+            //Save Image Data to Database
             const image = {buffer, path, filename, mimetype}
             const newPhoto = new Photo({title, image, notes, tags, author})
             await newPhoto.save()
