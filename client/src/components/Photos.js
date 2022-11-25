@@ -5,6 +5,7 @@ import PhotoDialog from "./PhotoDialog"
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import {withStyles} from '@material-ui/core/styles';
@@ -40,15 +41,10 @@ class Photos extends Component {
             "Content-Type": 'application/json',
             "x-auth-token": String(token)
         }});
- 
-        const {data} = response
 
-        const photos = data.map(photo => {
-          const {buffer} = photo.image
-          return {...photo, src: `data:image/png;base64,${this.toBase64(buffer.data)}`}
-        })
 
-        this.setState({photos})
+        this.setState({photos: response.data})
+
       } catch(error){
         console.log(error)
       }
@@ -86,9 +82,7 @@ class Photos extends Component {
         console.log(error)
       }
     }
-
-    toBase64 = arr => btoa( arr.reduce((data, byte) => data + String.fromCharCode(byte), ''))
-
+    
     render() {
         const {photos, username, openDialog, dialogPhoto} = this.state
         const {classes} = this.props
@@ -103,11 +97,13 @@ class Photos extends Component {
           }
           
           <div className={classes.root}>
+          
             <GridList cellHeight={180} spacing={2} cols={5} className={classes.gridList} >
             {photos.map(photo => {
               
               return (
                 <GridListTile key={photo._id} cols={1} onClick={() => this.handleDialogOpen(photo)}>
+                  
                   <img src={photo.src} alt={photo.title}/>
                   <GridListTileBar
                   title={photo.title}
@@ -117,8 +113,9 @@ class Photos extends Component {
                     </IconButton>
                   }
                 />
+             
                 </GridListTile>
-
+                
               )
             })}
             </GridList>
