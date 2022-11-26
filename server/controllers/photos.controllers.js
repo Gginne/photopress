@@ -37,7 +37,8 @@ class PhotoController{
         const key = photo.image.filekey
         const expiration = 60*60
         const url = getSignedUrl(key, expiration)
-
+        
+        console.log(url)
         res.send(url)
 
     }
