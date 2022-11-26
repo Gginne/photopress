@@ -40,7 +40,7 @@ const removeFile = key => {
         Key: key
     };
     
-    return s3.deleteObject(params);
+    return s3.deleteObject(params).promise();
 
   } catch(err){
     throw err

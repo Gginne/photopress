@@ -87,7 +87,7 @@ class PhotoController{
     
     async delete(req, res){
         const deletedPhoto = await Photo.findByIdAndDelete(req.params.photoId)
-        removeFile(deletedPhoto.image.filekey)
+        await removeFile(deletedPhoto.image.filekey)
         res.json({message: `Deleted Image ${deletedPhoto.title}`})
     }
 }
