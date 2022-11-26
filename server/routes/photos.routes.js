@@ -16,10 +16,9 @@ router.route("/")
 router.route("/:photoId")
       .get(auth, photoCtrl.get)
       .put(auth, photoCtrl.put)
-      .delete([auth, remove], photoCtrl.delete)
+      .delete(auth, photoCtrl.delete)
 
-router.route("/photo/:photoId")
-      .get(auth, photoCtrl.render)
-
+router.route("/url/:photoId")
+      .get(auth, photoCtrl.getUrl)
 //Exports
 module.exports = router

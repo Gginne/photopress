@@ -5,9 +5,7 @@ const {Schema, model} = require("mongoose")
 const photoSchema = new Schema({
     title: {type: String, required: true},
     image: {
-        buffer: Buffer,
-        path: String,
-        filename: String,
+        filekey: String,
         mimetype: String
     },
     notes: {type: String, required: false},
