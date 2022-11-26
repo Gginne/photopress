@@ -1,19 +1,20 @@
-import React, { Component } from 'react'
+import React, {useEffect} from 'react'
 import Cookies from "js-cookie"
 
-class Logout extends Component {
-    componentDidMount(){
+const Logout = (props) => {
+
+    useEffect(() => {
         Cookies.remove("user")
-        this.props.logout()
-        this.props.history.push("/login")
-    }
-    render() {
-        return (
-            <div>
-                <h1>Logout</h1>
-            </div>
-        )
-    }
+        props.logout()
+        props.history.push("/login")
+    });
+    
+    return (
+        <>
+            <h1>Logout</h1>
+        </>
+    )
 }
+
 
 export default Logout
