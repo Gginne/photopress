@@ -20,7 +20,6 @@ class PhotoController{
                 const key = p.image.filekey
                 const expiration = 60*60
                 const url = getSignedUrl(key, expiration)
-
                 
                 return {...p, src: url}
             })
@@ -38,7 +37,6 @@ class PhotoController{
         const expiration = 60*60
         const url = getSignedUrl(key, expiration)
         
-        console.log(url)
         res.send(url)
 
     }
@@ -63,8 +61,6 @@ class PhotoController{
                 await newPhoto.save()
 
                 res.json({message: `Photo id ${newPhoto._id} Posted`})
-                //console.log(newPhoto)
-                //console.log(req.file)
 
             } catch(s3Err){
                 console.log(s3Err)
