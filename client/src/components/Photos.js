@@ -51,11 +51,29 @@ class Photos extends Component {
    
     }
 
-    handleDialogOpen = photo => {
-      this.setState({
-        openDialog: true,
-        dialogPhoto: photo
-      })
+    handleDialogOpen = async (photo) => {
+      //TODO: check if photo url if expired, if yes, refresh photos
+      const {token} = this.context.user
+    
+      try{
+        const response = await axios.get(`/api/photos/url/${photo._id}`, {
+          headers: {
+            "Content-Type": 'application/json',
+            "x-auth-token": String(token)
+        }});
+
+        photo.src = response.data
+
+        this.setState({
+          openDialog: true,
+          dialogPhoto: photo
+        })
+      
+
+      } catch(error){
+        console.log(error)
+      }
+      
     }
 
     handleDialogClose = () => {

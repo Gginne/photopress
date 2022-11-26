@@ -12,14 +12,16 @@ class PhotoController{
             if(req.params.photoId){
                 photo = await Photo.find({author: req.user.id, _id: req.params.photoId})
             } else {
-                photo = await Photo.find({author: req.user.id})
+                photo = await Photo.find({author: req.user.id})    
             }
-
+            
             photo = photo.map(p => {
+                p = p.toObject()
                 const key = p.image.filekey
                 const expiration = 60*60
                 const url = getSignedUrl(key, expiration)
 
+                
                 return {...p, src: url}
             })
 
@@ -29,7 +31,17 @@ class PhotoController{
         }
     }
 
-  
+    async getUrl(req, res){
+        const photo = await Photo.findById(req.params.photoId)
+
+        const key = photo.image.filekey
+        const expiration = 60*60
+        const url = getSignedUrl(key, expiration)
+
+        res.send(url)
+
+    }
+
     async post(req, res){
         try{
             //Retrieve data
