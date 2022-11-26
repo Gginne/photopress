@@ -108,7 +108,9 @@ class Photos extends Component {
           <h1>Photos of {username}</h1>
           {
             dialogPhoto != null ? 
-            <PhotoDialog open={openDialog} photo={dialogPhoto} delete={this.handlePhotoDelete} close={() => this.handleDialogClose()}/> 
+              <PhotoDialog open={openDialog} photo={dialogPhoto} delete={this.handlePhotoDelete} 
+                close={() => this.handleDialogClose()}
+              /> 
             : ""
           }
           

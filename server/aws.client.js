@@ -31,11 +31,20 @@ const uploadFile = (path, filename, type) => {
   
 };
 
-const getFileStream = (key) => {
-  return s3.getObject({
-    Bucket: process.env.BUCKET,
-    Key: key,
-  }).createReadStream()
+
+const removeFile = key => {
+
+  try{
+    const params = {
+        Bucket: process.env.BUCKET, // pass your bucket name
+        Key: key
+    };
+    
+    return s3.deleteObject(params);
+
+  } catch(err){
+    throw err
+  }
 }
 
 const getSignedUrl = (key, exp) => {
@@ -48,6 +57,6 @@ const getSignedUrl = (key, exp) => {
 
 module.exports = {
     uploadFile,
-    getSignedUrl,
-    getFileStream
+    removeFile,
+    getSignedUrl
 }

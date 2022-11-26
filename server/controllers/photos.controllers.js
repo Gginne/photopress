@@ -1,13 +1,14 @@
 //Imports
 const Photo = require("../models/Photo")
 const fs = require("fs")
-const { uploadFile, getFileStream, getSignedUrl } = require("../aws.client")
+const { uploadFile, removeFile, getSignedUrl } = require("../aws.client")
 
 //Controller Class
 class PhotoController{
 
     async get(req, res){
         let photo;
+
         try{
             if(req.params.photoId){
                 photo = await Photo.find({author: req.user.id, _id: req.params.photoId})
@@ -17,6 +18,7 @@ class PhotoController{
             
             photo = photo.map(p => {
                 p = p.toObject()
+
                 const key = p.image.filekey
                 const expiration = 60*60
                 const url = getSignedUrl(key, expiration)
@@ -45,7 +47,6 @@ class PhotoController{
         try{
             //Retrieve data
             const {path, filename, mimetype} = req.file
-            console.log(req.file)
             const {title, notes, tags} = req.body
             const author = req.user.id
 
@@ -86,6 +87,7 @@ class PhotoController{
     
     async delete(req, res){
         const deletedPhoto = await Photo.findByIdAndDelete(req.params.photoId)
+        removeFile(deletedPhoto.image.filekey)
         res.json({message: `Deleted Image ${deletedPhoto.title}`})
     }
 }
