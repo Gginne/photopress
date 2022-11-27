@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -14,86 +14,80 @@ import PhotoIcon from '@material-ui/icons/Photo';
 import ConfirmDialog from "./ConfirmDialog"
 import styles from "./styles/PhotoDialogStyles"
 
-class PhotoDialog extends Component {
+const formatDateTime = ds => new Date(ds).toLocaleString()
 
-    constructor(props){
-        super(props)
-        this.state = {
-            showMore: false,
-            confirmDelete: false,
-        }
-    }
+const PhotoDialog = props => {
+    const [showMore, setShowMore] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState(false)
 
-    handleClose = () => {
-        this.props.close()
+    const handleClose = () => {
+        props.close()
     };
 
-    handleShowMore = () => {
-        this.setState(prevState => ({showMore: !prevState.showMore}))
+    const handleShowMore = () => {
+        setShowMore(!showMore)
+        //this.setState(prevState => ({showMore: !prevState.showMore}))
     }
 
-    handleConfirmDelete = st => {
-        this.setState({confirmDelete: st})
+    const handleConfirmDelete = st => {
+        setConfirmDelete(st)
     };
 
-    handleDelete = () => {
-        const {_id} = this.props.photo
-        this.handleClose()
-        this.props.delete(_id)
+    const handleDelete = () => {
+        const {_id} = props.photo
+
+        handleClose()
+
+        props.delete(_id)
     }
 
+    const {open, photo, classes} = props
 
-    formatDateTime = ds => new Date(ds).toLocaleString()
+    return (
+        <Dialog 
+        onClose={handleClose} 
+        aria-labelledby="customized-dialog-title" 
+        open={open}
+        fullWidth={showMore}
+        maxWidth = {showMore ? 'sm' : 'lg'}
+        PaperProps ={{classes: {root: classes.paper}}}
+        >
+            <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                <Typography variant="h6">{photo.title}</Typography>
+                <div className={classes.buttons}>
+                    <IconButton aria-label="more" onClick={handleShowMore}>
+                        {showMore ? <PhotoIcon /> : <InfoIcon /> }
+                    </IconButton>
+                    <IconButton aria-label="delete" onClick={() => handleConfirmDelete(true)}>
+                        <DeleteIcon />
+                    </IconButton> 
+                </div>
+            </DialogTitle>
+            <DialogContent dividers>
+            {
+                showMore ?
+                <div>
+                    <p>{photo.notes}</p>
+                    <p>Uploaded: {formatDateTime(photo.created_at)} </p>
+                    
+                    
+                </div>
+                : <img src={photo.src} alt={photo.title} className={classes.dialogImg} />
+            }
 
-    render() {
-        
-        const {open, photo, classes} = this.props
-        const {showMore, confirmDelete} = this.state
+            <ConfirmDialog 
+                title="Delete Photo?"
+                open={confirmDelete}
+                setOpen={handleConfirmDelete}
+                onConfirm={handleDelete}
+            />
+            
+            </DialogContent>
+            
+        </Dialog>
+    );
 
-        return (
-            <Dialog 
-            onClose={this.handleClose} 
-            aria-labelledby="customized-dialog-title" 
-            open={open}
-            fullWidth={showMore}
-            maxWidth = {showMore ? 'sm' : 'lg'}
-            PaperProps ={{classes: {root: classes.paper}}}
-            >
-                <DialogTitle id="customized-dialog-title" onClose={this.handleClose}>
-                    <Typography variant="h6">{photo.title}</Typography>
-                    <div className={classes.buttons}>
-                        <IconButton aria-label="more" onClick={this.handleShowMore}>
-                            {showMore ? <PhotoIcon /> : <InfoIcon /> }
-                        </IconButton>
-                        <IconButton aria-label="delete" onClick={() => this.handleConfirmDelete(true)}>
-                            <DeleteIcon />
-                        </IconButton> 
-                    </div>
-                </DialogTitle>
-                <DialogContent dividers>
-                {
-                    showMore ?
-                    <div>
-                        <p>{photo.notes}</p>
-                        <p>Uploaded: {this.formatDateTime(photo.created_at)} </p>
-                        
-                        
-                    </div>
-                    : <img src={photo.src} alt={photo.title} className={classes.dialogImg} />
-                }
-
-                <ConfirmDialog 
-                    title="Delete Photo?"
-                    open={confirmDelete}
-                    setOpen={this.handleConfirmDelete}
-                    onConfirm={this.handleDelete}
-                />
-                
-                </DialogContent>
-                
-            </Dialog>
-        );
-    }
 }
+
 
 export default withStyles(styles, { withTheme: true })(PhotoDialog);

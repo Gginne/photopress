@@ -21,85 +21,84 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import styles from "./styles/NavDrawerStyles"
 
-class NavDrawer extends Component {
-    render() {
-        const { classes, open, handleOpen, handleClose } = this.props
-        return (
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
+const NavDrawer = props => {
+    const { classes, open, handleOpen, handleClose } = props
+    return (
+        <Drawer
+            variant="permanent"
+            className={clsx(classes.drawer, {
+                [classes.drawerOpen]: open,
+                [classes.drawerClose]: !open,
+            })}
+            classes={{
+                paper: clsx({
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
+                }),
+            }}
+        >
 
-                <div className={classes.toolbar}>
-                    <IconButton onClick={open ? handleClose : handleOpen}>
-                        {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-                <List bgcolor="secondary.main">
+            <div className={classes.toolbar}>
+                <IconButton onClick={open ? handleClose : handleOpen}>
+                    {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+            </div>
+            <Divider />
+            <List bgcolor="secondary.main">
 
-                    <Link to="/photos" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <PhotoIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Photo" />
-                        </ListItem>
-                    </Link>
+                <Link to="/photos" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <PhotoIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Photo" />
+                    </ListItem>
+                </Link>
 
-                    <Link to="/albums" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <PhotoLibraryIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Albums" />
-                        </ListItem>
-                    </Link>
+                <Link to="/albums" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <PhotoLibraryIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Albums" />
+                    </ListItem>
+                </Link>
 
-                    <Link to="/photos/new" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AddPhotoAlternateIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="New Photo" />
-                        </ListItem>
-                    </Link>
-                    
-                    <Link to="/albums/new" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AddToPhotosIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="New Album" />
-                        </ListItem>
-                    </Link>
+                <Link to="/photos/new" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <AddPhotoAlternateIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="New Photo" />
+                    </ListItem>
+                </Link>
+                
+                <Link to="/albums/new" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <AddToPhotosIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="New Album" />
+                    </ListItem>
+                </Link>
 
-                </List>
-                <Divider />
-                <List>
-                    <Link to="/logout" className={classes.link}>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <ExitToAppIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Logout" />
+            </List>
+            <Divider />
+            <List>
+                <Link to="/logout" className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
 
-                        </ListItem>
-                    </Link>
+                    </ListItem>
+                </Link>
 
-                </List>
-            </Drawer>
-        )
-    }
+            </List>
+        </Drawer>
+    )
 }
+
 
 export default withStyles(styles, { withTheme: true })(NavDrawer)

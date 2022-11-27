@@ -1,129 +1,109 @@
-import React, { Component } from 'react';
-import axios from 'axios'
-import UserContext from "../context/UserContext"
-import PhotoDialog from "./PhotoDialog"
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import UserContext from "../context/UserContext";
 
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import {withStyles} from '@material-ui/core/styles';
-import styles from "./styles/PhotoStyles"
+import PhotoDialog from "./PhotoDialog";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
 
+import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/Info";
+import { withStyles } from "@material-ui/core/styles";
+import styles from "./styles/PhotoStyles";
 
-class Photos extends Component {
-    static contextType = UserContext
+const Photos = (props) => {
+  const [photos, setPhotos] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogPhoto, setDialogPhoto] = useState(null);
+
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    getPhotos()
     
-    constructor(){
-        super()
-        this.state = {
-          username: "",
-          photos: [],
-          openDialog: false,
-          dialogPhoto: null
-        }
-      }
-    
-    componentDidMount(){
-      const {username} = this.context.user.user
-      this.setState({username})
-    
-      this.getPhotos()
+    const interval = setInterval(() => {
+      getPhotos()
+    }, (1000*60*60));
+  
+    return () => clearInterval(interval);
+  }, []);
+
+  const getPhotos = async () => {
+    const { token } = user;
+
+    try {
+      const response = await axios.get("/api/photos", {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": String(token),
+        },
+      });
+      setPhotos(response.data);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    getPhotos = async e => {
-      const {token} = this.context.user
-
-      try{
-        const response = await axios.get('/api/photos', {
-          headers: {
-            "Content-Type": 'application/json',
-            "x-auth-token": String(token)
-        }});
-
-
-        this.setState({photos: response.data})
-
-      } catch(error){
-        console.log(error)
-      }
+  const handleDialogOpen = async (photo) => {
    
-    }
-
-    handleDialogOpen = async (photo) => {
-      //TODO: check if photo url if expired, if yes, refresh photos
-      const {token} = this.context.user
+    setOpenDialog(true);
+    setDialogPhoto(photo);
     
-      try{
-        const response = await axios.get(`/api/photos/${photo._id}`, {
-          headers: {
-            "Content-Type": 'application/json',
-            "x-auth-token": String(token)
-        }});
+  };
 
-        this.setState({
-          openDialog: true,
-          dialogPhoto: response.data[0]
-        })
-      
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setDialogPhoto(null);
+  };
 
-      } catch(error){
-        console.log(error)
-      }
-      
+  const handlePhotoDelete = async (id) => {
+    const { token } = user;
+
+    try {
+      await axios.delete(`/api/photos/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": String(token),
+        },
+      });
+
+      getPhotos();
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    handleDialogClose = () => {
-      this.setState({
-        openDialog: false,
-        dialogPhoto: null
-      })
-    }
 
-    handlePhotoDelete = async id => {
-      const {token} = this.context.user
+  return (
+    <div>
+      <h1>Photos of {user.user.username}</h1>
+      {dialogPhoto != null ? (
+        <PhotoDialog
+          open={openDialog}
+          photo={dialogPhoto}
+          delete={() => handlePhotoDelete(dialogPhoto._id)}
+          close={() => handleDialogClose()}
+        />
+      ) : (
+        ""
+      )}
 
-      try{
-        await axios.delete(`/api/photos/${id}`, {
-          headers: {
-            "Content-Type": 'application/json',
-            "x-auth-token": String(token)
-        }});
-        
-        this.getPhotos()
-       
-       
-      } catch(error){
-        console.log(error)
-      }
-    }
-    
-    render() {
-        const {photos, username, openDialog, dialogPhoto} = this.state
-        const {classes} = this.props
-       
-        return (
-          <div>
-          <h1>Photos of {username}</h1>
-          {
-            dialogPhoto != null ? 
-              <PhotoDialog open={openDialog} photo={dialogPhoto} delete={this.handlePhotoDelete} 
-                close={() => this.handleDialogClose()}
-              /> 
-            : ""
-          }
-          
-          <div className={classes.root}>
-          
-            <GridList cellHeight={180} spacing={2} cols={5} className={classes.gridList} >
-            {photos.map(photo => {
-              
-              return (
-                <GridListTile key={photo._id} cols={1} onClick={() => this.handleDialogOpen(photo)}>
-                  
-                  <img src={photo.src} alt={photo.title}/>
-                  <GridListTileBar
+      <div>
+        <GridList
+          cellHeight={180}
+          spacing={2}
+          cols={5}
+        >
+          {photos.map((photo) => {
+            return (
+              <GridListTile
+                key={photo._id}
+                cols={1}
+                onClick={() => handleDialogOpen(photo)}
+              >
+                <img src={photo.src} alt={photo.title} />
+                <GridListTileBar
                   title={photo.title}
                   actionIcon={
                     <IconButton aria-label={`info about ${photo.title}`}>
@@ -131,16 +111,13 @@ class Photos extends Component {
                     </IconButton>
                   }
                 />
-             
-                </GridListTile>
-                
-              )
-            })}
-            </GridList>
-          </div>
-        </div>
-        )
-      }
-}
+              </GridListTile>
+            );
+          })}
+        </GridList>
+      </div>
+    </div>
+  );
+};
 
 export default withStyles(styles, { withTheme: true })(Photos);
