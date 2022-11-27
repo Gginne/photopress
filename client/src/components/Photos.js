@@ -58,7 +58,7 @@ const Photos = (props) => {
   };
 
   const handlePhotoDelete = async (id) => {
-    const { token } = this.context.user;
+    const { token } = user;
 
     try {
       await axios.delete(`/api/photos/${id}`, {
@@ -68,13 +68,12 @@ const Photos = (props) => {
         },
       });
 
-      this.getPhotos();
+      getPhotos();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const classes = props;
 
   return (
     <div>
@@ -83,19 +82,18 @@ const Photos = (props) => {
         <PhotoDialog
           open={openDialog}
           photo={dialogPhoto}
-          delete={() => handlePhotoDelete()}
+          delete={() => handlePhotoDelete(dialogPhoto._id)}
           close={() => handleDialogClose()}
         />
       ) : (
         ""
       )}
 
-      <div className={classes.root}>
+      <div>
         <GridList
           cellHeight={180}
           spacing={2}
           cols={5}
-          className={classes.gridList}
         >
           {photos.map((photo) => {
             return (
