@@ -1,37 +1,26 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import NavDrawer from "./NavDrawer"
 import {withStyles} from '@material-ui/core/styles';
 import styles from "./styles/LayoutStyles"
 
-class Layout extends Component {
-    constructor(){
-        super()
-        this.state = {
-            drawerOpen: false
-        }
-    }
+const Layout = props => {
+    const [drawerOpen, setDrawerOpen] = useState(false)
 
-    handleDrawerOpen = () => {
-        this.setState({drawerOpen: true})
-    };
-    
-    handleDrawerClose = () => {
-        this.setState({drawerOpen: false})
-    };
+    const { children, classes } = props
 
-    render() {
-        const { drawerOpen } = this.state
-        const { children, classes } = this.props
-        return (
-            <div className={classes.root}>
-                <NavDrawer open={drawerOpen} handleOpen={() => this.handleDrawerOpen()} handleClose={() => this.handleDrawerClose()} />
-                <div className={classes.content}>
-                    {children}
-                </div>
+    return (
+        <div className={classes.root}>
+            <NavDrawer open={drawerOpen} 
+                       handleOpen={() => setDrawerOpen(true)}  
+                       handleClose={() => setDrawerOpen(false)} 
+            />
+            <div className={classes.content}>
+                {children}
             </div>
-           
-        );
-    }
+        </div>
+       
+    );
+
 }
 
 export default withStyles(styles, {withTheme: true})(Layout);

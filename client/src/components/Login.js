@@ -10,7 +10,7 @@ const Login = props =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const onSubmit = async e => {
+    const onLogin = async e => {
         e.preventDefault()
    
         const response = await axios.post('/api/auth', {email, password});
@@ -18,6 +18,7 @@ const Login = props =>{
         const {data} = response
 
         Cookies.set('user', data, {expires: 1/24})
+        
         props.login()
         props.history.push("/")
     
@@ -26,7 +27,7 @@ const Login = props =>{
     return (
         <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
             <h1>Login</h1>
-            <form method="POST" onSubmit={e => onSubmit(e)}>
+            <form method="POST" onSubmit={e => onLogin(e)}>
                 <div>
                     <TextField label="Email" name="email" onChange={e => setEmail(e.target.value)} margin="normal" 
                         fullWidth value={email} variant="outlined" />

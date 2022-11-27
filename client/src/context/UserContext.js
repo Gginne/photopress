@@ -1,42 +1,24 @@
-import React, {Component} from 'react'
+import React, {createContext, useState} from 'react'
 import Cookies from "js-cookie"
 import Layout  from "../components/Layout"
 
-const UserContext = React.createContext()
+const UserContext = createContext()
 
-class UserProvider extends Component {
+const UserProvider = (props) => {
     // Context state
-    state = {
-      user: JSON.parse(Cookies.get('user')),
-      photos: []
-    }
-    
-    // Method to update state
-    setUser = (user) => {
-      this.setState({user})
-    }
-  
-    render() {
-      const { children } = this.props
-      const { user } = this.state
-      const { setUser } = this
+
+    const [user, setUser] = useState(JSON.parse(Cookies.get('user')))
      
-      return (
-        <UserContext.Provider
-          value={{
-            user,
-            setUser,
-          }}
-        >
+    return (
+
+        <UserContext.Provider value={{user,setUser}}>
           <Layout>
-            {children}
+            {props.children}
           </Layout>
           
         </UserContext.Provider>
-      )
-    }
-  }
-
-export const UserConsumer = UserContext.Consumer
+    )
+}
+  
 export {UserProvider} 
 export default  UserContext

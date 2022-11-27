@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -12,12 +11,9 @@ import Avatar from "@material-ui/core/Avatar"
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
-
-class ConfirmDialog extends Component {
-    
-    render() {
-        const { title, open, setOpen, onConfirm } = this.props;
-        return (
+const ConfirmDialog = props => {
+    const { title, open, setOpen, onConfirm } = props;
+    return (
         <Dialog
             open={open}
             onClose={() => setOpen(false)}
@@ -46,8 +42,8 @@ class ConfirmDialog extends Component {
                 </ListItem>
             </List>
         </Dialog>
-        )
-    }
+    )
 }
+
 
 export default ConfirmDialog;
