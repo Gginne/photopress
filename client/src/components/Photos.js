@@ -3,14 +3,17 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
+import Box from "@mui/material/Box";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import { withStyles } from "@material-ui/core/styles";
 import styles from "./styles/PhotoStyles";
+
+
 
 const Photos = (props) => {
   const [photos, setPhotos] = useState([]);
@@ -20,12 +23,12 @@ const Photos = (props) => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    getPhotos()
-    
+    getPhotos();
+
     const interval = setInterval(() => {
-      getPhotos()
-    }, (1000*60*60));
-  
+      getPhotos();
+    }, 1000 * 60 * 60);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -46,10 +49,8 @@ const Photos = (props) => {
   };
 
   const handleDialogOpen = async (photo) => {
-   
     setOpenDialog(true);
     setDialogPhoto(photo);
-    
   };
 
   const handleDialogClose = () => {
@@ -74,7 +75,6 @@ const Photos = (props) => {
     }
   };
 
-
   return (
     <div>
       <h1>Photos of {user.user.username}</h1>
@@ -89,33 +89,32 @@ const Photos = (props) => {
         ""
       )}
 
-      <div>
-        <GridList
-          cellHeight={180}
-          spacing={2}
-          cols={5}
-        >
-          {photos.map((photo) => {
-            return (
-              <GridListTile
-                key={photo._id}
-                cols={1}
-                onClick={() => handleDialogOpen(photo)}
-              >
-                <img src={photo.src} alt={photo.title} />
-                <GridListTileBar
-                  title={photo.title}
-                  actionIcon={
-                    <IconButton aria-label={`info about ${photo.title}`}>
-                      <InfoIcon />
-                    </IconButton>
-                  }
-                />
-              </GridListTile>
-            );
-          })}
-        </GridList>
-      </div>
+      <Box>
+        <ImageList sx={{ margin: '0 auto', width: 1100}} variant="masonry" cols={4} gap={8}>
+          {photos.map((photo) => (
+            <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
+              <img
+                src={`${photo.src}`}
+                srcSet={`${photo.src}`}
+                alt={photo.title}
+                loading="lazy"
+              />
+               <ImageListItemBar
+                title={photo.title}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: '#fffff' }}
+                    aria-label={`info about ${photo.title}`}
+                  >
+                <InfoIcon />
+              </IconButton>
+            }
+            
+          />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </Box>
     </div>
   );
 };
