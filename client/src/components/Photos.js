@@ -3,11 +3,13 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
-import Box from "@mui/material/Box";
+import AlbumList from "./AlbumList";
 import { Grid } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import TextField from '@mui/material/TextField';
+
 
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
@@ -75,7 +77,7 @@ const Photos = (props) => {
   };
 
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} sx={{padding: '0.5rem 0'}}>
    
       {dialogPhoto != null ? (
         <PhotoDialog
@@ -88,8 +90,13 @@ const Photos = (props) => {
         ""
       )}
 
-      <Grid item sm={10}>
-        <ImageList cols={7} gap={8}>
+      <Grid item sm={2}>
+          <AlbumList />
+      </Grid>
+
+      <Grid item sm={9}>
+        <TextField id="outlined-basic" label="Search" variant="outlined" />
+        <ImageList cols={6} gap={8}>
           {photos.map((photo) => (
             <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
               <img
@@ -112,12 +119,33 @@ const Photos = (props) => {
           />
             </ImageListItem>
           ))}
+          {photos.map((photo) => (
+            <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
+              <img
+                src={`${photo.src}`}
+                srcSet={`${photo.src}`}
+                alt={photo.title}
+                loading="lazy"
+              />
+               <ImageListItemBar
+                title={photo.title}
+                actionIcon={
+                  <IconButton
+                    sx={{ color: '#fffff' }}
+                    aria-label={`info about ${photo.title}`}
+                  >
+                <InfoIcon />
+              </IconButton>
+            }
+            
+          />
+            </ImageListItem>
+          ))}
+         
         </ImageList>
       </Grid>
 
-      <Grid item sm={2}>
-
-      </Grid>
+      
     </Grid>
   );
 };
