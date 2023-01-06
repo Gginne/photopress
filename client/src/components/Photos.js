@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
 import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -74,8 +75,8 @@ const Photos = (props) => {
   };
 
   return (
-    <div>
-      <h1>Photos of {user.user.username}</h1>
+    <Grid container spacing={1}>
+   
       {dialogPhoto != null ? (
         <PhotoDialog
           open={openDialog}
@@ -87,8 +88,8 @@ const Photos = (props) => {
         ""
       )}
 
-      <Box>
-        <ImageList sx={{ margin: '0 auto', width: 1100}} variant="masonry" cols={4} gap={8}>
+      <Grid item sm={10}>
+        <ImageList cols={7} gap={8}>
           {photos.map((photo) => (
             <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
               <img
@@ -112,8 +113,12 @@ const Photos = (props) => {
             </ImageListItem>
           ))}
         </ImageList>
-      </Box>
-    </div>
+      </Grid>
+
+      <Grid item sm={2}>
+
+      </Grid>
+    </Grid>
   );
 };
 
