@@ -8,10 +8,8 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "./styles/PhotoStyles";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
 
 
 
@@ -119,4 +117,4 @@ const Photos = (props) => {
   );
 };
 
-export default withStyles(styles, { withTheme: true })(Photos);
+export default Photos;

@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import UserContext from "../context/UserContext"
 import axios from 'axios'
-import {withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import styles from "./styles/PhotoFormStyles"
+
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 
 const PhotoForm = props => {
   const [image, setImage] = useState(null)
@@ -44,11 +44,10 @@ const PhotoForm = props => {
     props.history.push("/photos")
   }
 
-  const {classes} = props
   return (
     <div>
       <h1>New Photo</h1>
-      <div className={classes.container}>
+      <div>
           <form method="POST" onSubmit={e => handleSubmit(e)} encType="multipart/form-data">
           <Button variant="contained" component="label" disableElevation>
             Upload File
@@ -91,4 +90,4 @@ const PhotoForm = props => {
 }
 
 
-export default withStyles(styles, { withTheme: true })(PhotoForm);
+export default PhotoForm;
