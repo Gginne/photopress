@@ -6,9 +6,9 @@ const Layout = props => {
     const { children } = props
 
     return (
-        <Grid container spacing={4} sx={{padding: '0.5rem'}}>
+        <Grid container spacing={4}>
             <Grid item sm={1}>
-                <Sidebar />
+                <Sidebar/>
             </Grid>
             <Grid item sm={11}>
                 {children}

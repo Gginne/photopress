@@ -1,16 +1,16 @@
 import React from 'react'
 import Paper  from '@mui/material/Paper'
 import Box from '@mui/material/Box';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import SendIcon from '@mui/icons-material/Send';
+
+import PhotoIcon from '@mui/icons-material/Photo';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 export default function Sidebar() {
   return (
     <Paper sx={{
         background: "#333",
-        height:'95vh',
-        borderRadius: "25px",
+        height:'100vh',
+        borderRadius: 0,
         color: "white",
         display: 'flex',
         flexDirection: 'column',
@@ -18,19 +18,19 @@ export default function Sidebar() {
         alignItems: 'center',
         padding: "4rem 2rem",
     
-    }}>
+    }} elevation={3}>
        
     <Box>
-        <SendIcon />
+        <PhotoIcon fontSize='large'/>
     </Box>
     <Box>
-        <SendIcon />
+        <AddPhotoAlternateIcon fontSize='large' />
     </Box>
     <Box>
-        <SendIcon />
+        <AddPhotoAlternateIcon fontSize='large' />
     </Box>
     <Box>
-        <SendIcon />
+        <AddPhotoAlternateIcon fontSize='large' />
     </Box>
       
     </Paper>
