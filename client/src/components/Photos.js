@@ -3,17 +3,21 @@ import axios from "axios";
 import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
-import Box from "@mui/material/Box";
+import AlbumList from "./AlbumList";
+
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "./styles/PhotoStyles";
+import IconButton from "@mui/material/IconButton";
+import InfoIcon from "@mui/icons-material/Info";
+import Box from "@mui/material/Box"
 
 
+const drawerWidth = 240;
 
 const Photos = (props) => {
   const [photos, setPhotos] = useState([]);
@@ -76,8 +80,13 @@ const Photos = (props) => {
   };
 
   return (
-    <div>
-      <h1>Photos of {user.user.username}</h1>
+    <Box sx={{ display: 'flex' }}>
+      
+      
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+      >
       {dialogPhoto != null ? (
         <PhotoDialog
           open={openDialog}
@@ -89,8 +98,7 @@ const Photos = (props) => {
         ""
       )}
 
-      <Box>
-        <ImageList sx={{ margin: '0 auto', width: 1100}} variant="masonry" cols={4} gap={8}>
+        <ImageList cols={6} gap={8}>
           {photos.map((photo) => (
             <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
               <img
@@ -113,10 +121,17 @@ const Photos = (props) => {
           />
             </ImageListItem>
           ))}
+          
+         
         </ImageList>
-      </Box>
-    </div>
+
+        </Box>
+     
+        <AlbumList />
+    
+        
+    </Box>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(Photos);
+export default Photos;

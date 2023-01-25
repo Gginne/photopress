@@ -32,17 +32,6 @@ class PhotoController{
         }
     }
 
-    async getUrl(req, res){
-        const photo = await Photo.findById(req.params.photoId)
-
-        const key = photo.image.filekey
-        const expiration = 60*60
-        const url = getSignedUrl(key, expiration)
-        
-        res.send(url)
-
-    }
-
     async post(req, res){
         try{
             //Retrieve data

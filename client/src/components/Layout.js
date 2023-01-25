@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
-import NavDrawer from "./NavDrawer"
-import {withStyles} from '@material-ui/core/styles';
-import styles from "./styles/LayoutStyles"
+import React from "react";
+import Sidebar from "./Sidebar";
+import { Box } from "@mui/material";
 
-const Layout = props => {
-    const [drawerOpen, setDrawerOpen] = useState(false)
+const Layout = (props) => {
+  const { children } = props;
 
-    const { children, classes } = props
+  return (
+    <Box sx={{ display: "flex" }}>
+      <Sidebar />
 
-    return (
-        <div className={classes.root}>
-            <NavDrawer open={drawerOpen} 
-                       handleOpen={() => setDrawerOpen(true)}  
-                       handleClose={() => setDrawerOpen(false)} 
-            />
-            <div className={classes.content}>
-                {children}
-            </div>
-        </div>
-       
-    );
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};
 
-}
-
-export default withStyles(styles, {withTheme: true})(Layout);
+export default Layout;

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
 
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import Dialog from '@mui/material/Dialog';
+import Typography from '@mui/material/Typography';
 
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import InfoIcon from '@material-ui/icons/Info';
-import PhotoIcon from '@material-ui/icons/Photo';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
+import PhotoIcon from '@mui/icons-material/Photo';
 
 import ConfirmDialog from "./ConfirmDialog"
-import styles from "./styles/PhotoDialogStyles"
 
 const formatDateTime = ds => new Date(ds).toLocaleString()
 
@@ -41,7 +39,7 @@ const PhotoDialog = props => {
         props.delete(_id)
     }
 
-    const {open, photo, classes} = props
+    const {open, photo} = props
 
     return (
         <Dialog 
@@ -50,11 +48,10 @@ const PhotoDialog = props => {
         open={open}
         fullWidth={showMore}
         maxWidth = {showMore ? 'sm' : 'lg'}
-        PaperProps ={{classes: {root: classes.paper}}}
         >
             <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                 <Typography variant="h6">{photo.title}</Typography>
-                <div className={classes.buttons}>
+                <div>
                     <IconButton aria-label="more" onClick={handleShowMore}>
                         {showMore ? <PhotoIcon /> : <InfoIcon /> }
                     </IconButton>
@@ -72,7 +69,7 @@ const PhotoDialog = props => {
                     
                     
                 </div>
-                : <img src={photo.src} alt={photo.title} className={classes.dialogImg} />
+                : <img src={photo.src} alt={photo.title} />
             }
 
             <ConfirmDialog 
@@ -90,4 +87,4 @@ const PhotoDialog = props => {
 }
 
 
-export default withStyles(styles, { withTheme: true })(PhotoDialog);
+export default PhotoDialog;
