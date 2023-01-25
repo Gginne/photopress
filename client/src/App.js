@@ -13,7 +13,7 @@ function App(){
   const [isLogged, setIsLogged] = useState((Cookies.get('user') ? true: false))
   
   return (
-    <div className="App" style={{background: "#F9F9F9"}}>
+    <div className="App">
         <CssBaseline />
         {isLogged ? (
             <Switch>

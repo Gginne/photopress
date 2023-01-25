@@ -1,23 +1,22 @@
-import React from 'react';
-import { Grid } from '@mui/material';
-import Sidebar from './Sidebar';
-const Layout = props => {
+import React from "react";
+import Sidebar from "./Sidebar";
+import { Box } from "@mui/material";
 
-    const { children } = props
+const Layout = (props) => {
+  const { children } = props;
 
-    return (
-        <Grid container spacing={4}>
-            <Grid item sm={1}>
-                <Sidebar/>
-            </Grid>
-            <Grid item sm={11}>
-                {children}
-            </Grid>
-        
-        </Grid>
-       
-    );
+  return (
+    <Box sx={{ display: "flex" }}>
+      <Sidebar />
 
-}
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
+      >
+        {children}
+      </Box>
+    </Box>
+  );
+};
 
 export default Layout;

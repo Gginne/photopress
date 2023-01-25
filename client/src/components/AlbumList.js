@@ -1,72 +1,47 @@
-import React from 'react';
+import * as React from "react";
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Drawer from "@mui/material/Drawer";
 
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import { Paper } from '@mui/material';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+
+import Avatar from "@mui/material/Avatar";
+import ImageIcon from "@mui/icons-material/Image";
+
+import { Divider } from "@mui/material";
+
+const drawerWidth = 240;
 
 export default function AlbumList() {
   return (
-    <Paper elevation={3}>
-    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemAvatar>
-          <Avatar>
-            <ImageIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="All Photos" secondary="x photos" />
-      </ListItemButton>
-     
-     
-    </List>
-    </Paper>
+    <Drawer
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        "& .MuiDrawer-paper": {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
+      }}
+      variant="permanent"
+      anchor="right"
+    >
+      <Toolbar />
+      <Divider />
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <ImageIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary="All Photos" secondary="x photos" />
+        </ListItem>
+      </List>
+    </Drawer>
   );
 }

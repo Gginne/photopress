@@ -4,17 +4,20 @@ import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
 import AlbumList from "./AlbumList";
-import { Grid } from "@mui/material";
+
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import TextField from '@mui/material/TextField';
-import Paper from "@mui/material/Paper";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
+import Box from "@mui/material/Box"
 
 
+const drawerWidth = 240;
 
 const Photos = (props) => {
   const [photos, setPhotos] = useState([]);
@@ -77,8 +80,13 @@ const Photos = (props) => {
   };
 
   return (
-    <Grid container spacing={1} sx={{padding: '1rem'}}>
-   
+    <Box sx={{ display: 'flex' }}>
+      
+      
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+      >
       {dialogPhoto != null ? (
         <PhotoDialog
           open={openDialog}
@@ -90,12 +98,6 @@ const Photos = (props) => {
         ""
       )}
 
-      
-      <Grid item sm={10}>
-        <Paper sx={{padding: '.5rem'}}>
-          <TextField id="standard-basic" label="Search" variant="standard" />
-        </Paper>
-        
         <ImageList cols={6} gap={8}>
           {photos.map((photo) => (
             <ImageListItem key={photo._id} onClick={() => handleDialogOpen(photo)}>
@@ -122,14 +124,13 @@ const Photos = (props) => {
           
          
         </ImageList>
-      </Grid>
-      
-      <Grid item sm={2}>
-          <AlbumList />
-      </Grid>
 
-      
-    </Grid>
+        </Box>
+     
+        <AlbumList />
+    
+        
+    </Box>
   );
 };
 
