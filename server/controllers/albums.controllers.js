@@ -21,7 +21,6 @@ class AlbumController{
             const author = req.user.id
             const newAlbum = new Album({name, author})
             await newAlbum.save()
-            console.log(newAlbum)
             res.json({message: "Album Created"})
         } catch(err){
             console.log(err)

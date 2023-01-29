@@ -13,6 +13,8 @@ import Avatar from "@mui/material/Avatar";
 import ImageIcon from "@mui/icons-material/Image";
 
 import { Divider } from "@mui/material";
+import AddAlbumButton from "./AddAlbumButton";
+import TextField from "@mui/material/TextField"
 
 const drawerWidth = 240;
 
@@ -30,7 +32,17 @@ export default function AlbumList() {
       variant="permanent"
       anchor="right"
     >
-      <Toolbar />
+      <Toolbar>
+      <TextField
+          required
+          label="Search Album"
+          defaultValue=""
+          size="small"
+          variant="standard"
+        />
+      <AddAlbumButton />
+      </Toolbar>
+      
       <Divider />
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         <ListItem>
