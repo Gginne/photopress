@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
-import Cookies from "js-cookie"
-import axios from 'axios'
 import {Link} from "react-router-dom"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
-
+import { useNavigate, Navigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 const Login = props =>{
+    const navigate = useNavigate();
+    const {login, register, currentUser} = useAuth()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const onLogin = async e => {
+    const handleLogin = async e => {
         e.preventDefault()
    
-        const response = await axios.post('/api/auth', {email, password});
-    
-        const {data} = response
+        await login(email, password)
 
-        Cookies.set('user', data, {expires: 1/24})
-        
-        props.login()
-        props.history.push("/")
+        navigate('/')
     
     }  
 
     return (
         <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
             <h1>Login</h1>
-            <form method="POST" onSubmit={e => onLogin(e)}>
+            <form method="POST" onSubmit={e => handleLogin(e)}>
                 <div>
                     <TextField label="Email" name="email" onChange={e => setEmail(e.target.value)} margin="normal" 
                         fullWidth value={email} variant="outlined" />

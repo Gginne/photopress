@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import UserContext from "../context/UserContext"
 import axios from 'axios'
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import { useAuth } from '../context/AuthContext';
 
 const PhotoForm = props => {
   const [image, setImage] = useState(null)
@@ -12,14 +12,13 @@ const PhotoForm = props => {
   const [notes, setNotes] = useState("")
   const [tags, setTags] = useState("")
 
-  const userContext = useContext(UserContext)
+  const {accessToken} = useAuth()
   //
 
   const handleSubmit = async e => {
 
     e.preventDefault()
 
-    const {token} = userContext.user
 
     const formData = new FormData();
 
@@ -32,7 +31,7 @@ const PhotoForm = props => {
       await axios.post('/api/photos', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          "x-auth-token": String(token)
+          "x-auth-token": String(accessToken)
       }});
     }catch(error){
       console.log(error)

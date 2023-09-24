@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
 import AlbumList from "./AlbumList";
@@ -15,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import Box from "@mui/material/Box"
-
+import { useAuth } from "../context/AuthContext";
 
 const drawerWidth = 240;
 
@@ -24,7 +23,7 @@ const Photos = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogPhoto, setDialogPhoto] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { accessToken } = useAuth()
 
   useEffect(() => {
     getPhotos();
@@ -37,13 +36,13 @@ const Photos = (props) => {
   }, []);
 
   const getPhotos = async () => {
-    const { token } = user;
+
 
     try {
       const response = await axios.get("/api/photos", {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": String(token),
+          "x-auth-token": String(accessToken),
         },
       });
       setPhotos(response.data);
@@ -63,13 +62,12 @@ const Photos = (props) => {
   };
 
   const handlePhotoDelete = async (id) => {
-    const { token } = user;
 
     try {
       await axios.delete(`/api/photos/${id}`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": String(token),
+          "x-auth-token": String(accessToken),
         },
       });
 
