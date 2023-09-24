@@ -4,7 +4,6 @@ const cors = require("cors")
 const path = require("path")
 const photoRoutes = require("./routes/photos.routes")
 const albumRoutes = require("./routes/albums.routes")
-const userRoutes = require("./routes/users.routes")
 const authRoutes = require("./routes/auth.routes")
 
 //Settup
@@ -25,8 +24,7 @@ app.use(cors())
 
 app.use("/api/photos", photoRoutes)
 app.use("/api/albums", albumRoutes)
-app.use("/api/users", userRoutes)
-app.use("/api/auth", authRoutes)
+app.use("/api", authRoutes)
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, '../', 'client', 'build', 'index.html'))
