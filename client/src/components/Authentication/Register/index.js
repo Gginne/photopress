@@ -4,26 +4,22 @@ import {Link} from "react-router-dom"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-const Register = (props) => {
+const Register = ({onSubmit}) => {
 
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConf, setPasswordConf] = useState("")
 
-    const onRegister = async e => {
+    const handleSubmit = async e => {
         e.preventDefault()
-
-        const signup = await axios.post('/api/register', {username, email, password});
-        
-        props.history.push("/login")
-
-    }
+        await onSubmit({username, email, password})
+    }  
     
     return (
         <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
             <h1>Register</h1>
-            <form method="POST" onSubmit={e => onRegister(e)}>
+            <form method="POST" onSubmit={handleSubmit}>
                 <div>
                     <TextField label="Email" name="email" onChange={e => setEmail(e.target.value)} margin="normal" 
                         fullWidth value={email} variant="outlined" />
@@ -38,16 +34,13 @@ const Register = (props) => {
                 </div>
                 <div>
                     <TextField label="Confirm Password" name="passwordConf" onChange={e => setPasswordConf(e.target.value)} margin="normal" 
-                        fullWidth value={password} variant="outlined" type="password" />
+                        fullWidth value={passwordConf} variant="outlined" type="password" />
                 </div>
                 <br></br>
                 <div>
                     <Button variant="contained" color="primary" type="submit" disableElevation> Sign Up </Button>
                 </div>
-                <br></br>
-                <div>
-                    Have an account? <Link style={{textDecoration: "none"}} to="/login">Login</Link>
-                </div>
+              
             </form>
         </div>
     )

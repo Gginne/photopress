@@ -20,18 +20,20 @@ const AuthProvider = ({children}) => {
     );
   
   
-    const login = async (email, password) => {
+    const login = async (data) => {
       try {
         
-        const response = await axios.post("/api/login", {email, password});
+        const response = await axios.post("/api/login", data);
    
         const { access, user } = response.data;
-  
+        
+        setCurrentUser(user);
+        setAccessToken(access)
+        
         setSessionStorage("access", access);
         setSessionStorage("user", user);
 
-        setCurrentUser(user);
-        setAccessToken(access)
+        
 
       } catch (err) {
         console.log(err);
@@ -40,15 +42,17 @@ const AuthProvider = ({children}) => {
     
     const register = async (data) => {
       try {
+        
         const response = await axios.post("/api/register", data);
-  
-        const { access, refresh, user } = response.data;
+        console.log(response)
+        const { access, user } = response.data;
   
         setSessionStorage("access", access);
-        setSessionStorage("refresh", refresh);
         setSessionStorage("user", user);
-  
+
         setCurrentUser(user);
+        setAccessToken(access)
+  
       } catch (err) {
         console.log(err);
       }
@@ -57,6 +61,7 @@ const AuthProvider = ({children}) => {
     const logout = () => {
       sessionStorage.clear();
       setCurrentUser(null);
+      setAccessToken(null);
     };
   
     const value = {

@@ -18,7 +18,7 @@ const Layout = () => {
       </Box>
     </Box>
   ) : (
-    <Navigate to={"/login"} replace />
+    <Navigate to={"/auth"} replace />
   );
 };
 

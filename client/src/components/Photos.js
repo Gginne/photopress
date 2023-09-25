@@ -28,11 +28,6 @@ const Photos = (props) => {
   useEffect(() => {
     getPhotos();
 
-    const interval = setInterval(() => {
-      getPhotos();
-    }, 1000 * 60 * 60);
-
-    return () => clearInterval(interval);
   }, []);
 
   const getPhotos = async () => {

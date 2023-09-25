@@ -8,6 +8,7 @@ import PhotoForm from "./components/PhotoForm";
 import Register from "./components/Register";
 import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
+import Authentication from "./components/Authentication";
 
 function App() {
   return (
@@ -19,8 +20,8 @@ function App() {
           <Route element={<Layout />}>
             <Route exact path="/" element={<Photos />} />
           </Route>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/auth" element={<Authentication />} />
+       
 
           {/*
             <Route exact path="/" render={props => <Photos />} />

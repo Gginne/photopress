@@ -14,7 +14,7 @@ router.route("/login")
  
 //Get user data
 router.route("/register")
-    .get(auth, userCtrl.register)
+    .post(userCtrl.register)
     
 //Exports
 module.exports = router
