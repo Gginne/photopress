@@ -8,7 +8,7 @@ class PhotoController{
 
     async get(req, res){
         let photo;
-
+        
         try{
             if(req.params.photoId){
                 photo = await Photo.find({author: req.user.id, _id: req.params.photoId})
