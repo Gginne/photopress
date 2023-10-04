@@ -9,11 +9,12 @@ const router = express.Router()
 //Routes
 
 //Login
-router.route("/")
-    .post(userCtrl.auth)
+router.route("/login")
+    .post(userCtrl.login)
  
 //Get user data
-router.route("/user")
-    .get(auth, userCtrl.get)
+router.route("/register")
+    .post(userCtrl.register)
+    
 //Exports
 module.exports = router

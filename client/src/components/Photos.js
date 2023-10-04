@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import axios from "axios";
-import UserContext from "../context/UserContext";
 
 import PhotoDialog from "./PhotoDialog";
 import AlbumList from "./AlbumList";
@@ -8,49 +7,29 @@ import AlbumList from "./AlbumList";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import Box from "@mui/material/Box"
 
+import { useAuth } from "../context/AuthContext";
+import useRequest from "../hooks/useRequest";
+import { getPhotos } from "../services/photoService";
 
-const drawerWidth = 240;
 
 const Photos = (props) => {
-  const [photos, setPhotos] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogPhoto, setDialogPhoto] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { accessToken } = useAuth()
+  const getPhotoRequest = useRequest(getPhotos())
 
   useEffect(() => {
-    getPhotos();
-
-    const interval = setInterval(() => {
-      getPhotos();
-    }, 1000 * 60 * 60);
-
-    return () => clearInterval(interval);
+    getPhotoRequest.trigger();
   }, []);
 
-  const getPhotos = async () => {
-    const { token } = user;
+  const photos = useMemo(() => getPhotoRequest.data ?? [], [ getPhotoRequest.data ])
 
-    try {
-      const response = await axios.get("/api/photos", {
-        headers: {
-          "Content-Type": "application/json",
-          "x-auth-token": String(token),
-        },
-      });
-      setPhotos(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleDialogOpen = async (photo) => {
     setOpenDialog(true);
@@ -63,13 +42,12 @@ const Photos = (props) => {
   };
 
   const handlePhotoDelete = async (id) => {
-    const { token } = user;
 
     try {
       await axios.delete(`/api/photos/${id}`, {
         headers: {
           "Content-Type": "application/json",
-          "x-auth-token": String(token),
+          "x-auth-token": String(accessToken),
         },
       });
 

@@ -9,6 +9,7 @@ const auth = require("../middleware/auth")
 const router = express.Router()
 
 //Routes
+
 router.route("/")
       .get(auth, photoCtrl.get) //getting all images associated with logged in user
       .post([auth, upload], photoCtrl.post) //posting images to user

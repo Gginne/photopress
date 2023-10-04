@@ -3,27 +3,21 @@ import {Link} from "react-router-dom"
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
-const Login = props =>{
-    const navigate = useNavigate();
-    const {login} = useAuth()
+
+const Login = ({onSubmit}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleLogin = async e => {
+    const handleSubmit = async e => {
         e.preventDefault()
-   
-        await login(email, password)
-
-        navigate('/')
-    
+        await onSubmit({email, password})
     }  
 
     return (
     
         <div style={{minWidth: "250px", maxWidth: "350px", margin: "auto", textAlign: "center"}}>
             <h1>Login</h1>
-            <form method="POST" onSubmit={e => handleLogin(e)}>
+            <form method="POST" onSubmit={handleSubmit}>
                 <div>
                     <TextField label="Email" name="email" onChange={e => setEmail(e.target.value)} margin="normal" 
                         fullWidth value={email} variant="outlined" />
@@ -37,9 +31,6 @@ const Login = props =>{
                     <Button variant="contained" color="primary" type="submit" disableElevation> Sign In </Button>
                 </div>
         
-                <div>
-                    Don't have an account? <Link style={{textDecoration: "none"}} to="/register">Register</Link>
-                </div>
             </form>
               
         </div>

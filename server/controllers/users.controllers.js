@@ -11,7 +11,7 @@ class UserController{
         res.json(foundUser)
     }
 
-    async post(req, res){
+    async register(req, res){
         const {username, email, password} = req.body;
         if(!username || !email || !password){
             return res.status(400).json({message: "Enter all fields"})
@@ -21,16 +21,16 @@ class UserController{
         if(foundUser) return res.status(400).json({message: "User already exists"});
         let newUser = new User({username, email, password})
 
-        const salt = await bcrypt.genSaltSync(10)
+        const salt = bcrypt.genSaltSync(10)
         const hash = await bcrypt.hash(newUser.password, salt)
               
         newUser.password = hash;
         const hUser = await newUser.save()
-        const token = await jwt.sign({id: hUser.id}, process.env.JWTSECRET, {expiresIn: 3600})
-        res.json({token, user: {id: hUser.id, username: hUser.username, email: hUser.email}})
+        const token = jwt.sign({id: hUser.id}, process.env.JWTSECRET, {expiresIn: 3600})
+        res.json({access: token, user: {id: hUser.id, username: hUser.username, email: hUser.email}})
          
     }
-    async auth(req, res){
+    async login(req, res){
         const {email, password} = req.body;
         if(!email || !password){
             return res.status(400).json({message: "Enter all fields"})
@@ -44,14 +44,11 @@ class UserController{
         if(!isMatch){
             return res.status(400).json({message: "Invalid credentials"})
         } else {
-            const token = await jwt.sign({id: foundUser.id}, process.env.JWTSECRET, {expiresIn: 3600})
-            res.json({token, user: {id: foundUser.id, username: foundUser.username, email: foundUser.email}})
+            const token = jwt.sign({id: foundUser.id}, process.env.JWTSECRET, {expiresIn: 3600})
+            res.json({access: token, user: {id: foundUser.id, username: foundUser.username, email: foundUser.email}})
         }
     }
     
-    async delete(req, res){
-       
-    }
 
     
 }
