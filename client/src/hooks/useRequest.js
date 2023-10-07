@@ -35,6 +35,7 @@ export default function useRequest(options) {
       console.log(options.url, response)
       dispatch({ type: "success", data: response.data });
     } catch (error) {
+      console.log(options.url, error)
       dispatch({ type: "error", error });
       //logout()
     }
