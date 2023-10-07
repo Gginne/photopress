@@ -58,8 +58,9 @@ const AuthProvider = ({children}) => {
       }
     };
   
-    const logout = () => {
+    const logout = async () => {
       sessionStorage.clear();
+      await axios.post("/api/logout");
       setCurrentUser(null);
       setAccessToken(null);
     };

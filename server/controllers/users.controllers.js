@@ -115,4 +115,11 @@ const refresh = async (req, res) => {
   }
 }
 
-module.exports = { login, register, refresh};
+const logout = async (req, res) => {
+  const cookies = req.cookies
+  if (!cookies?.jwt_refresh) return res.sendStatus(204) 
+  res.clearCookie('jwt_refresh', { httpOnly: true, sameSite: 'None', secure: true })
+  res.json({ message: 'Cookie cleared' })
+}
+
+module.exports = { login, register, refresh, logout};
