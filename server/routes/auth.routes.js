@@ -8,17 +8,20 @@ const router = express.Router()
 
 //Routes
 
-//Login
+//Login user
 router.route("/login")
     .post(userCtrl.login)
  
-//Get user data
+//Register user
 router.route("/register")
     .post(userCtrl.register)
 
-//Get user data
+//Refresh access token
 router.route("/refresh")
     .post(userCtrl.refresh)
-    
+
+//Clear refresh token
+router.route("/logout")
+    .post(userCtrl.logout)
 //Exports
 module.exports = router

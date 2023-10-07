@@ -26,7 +26,7 @@ export default function useRequest(options) {
     loading: false,
   });
 
-  //const {logout} = useAuth()
+  const {logout} = useAuth()
 
   const trigger = useCallback(async () => {
     dispatch({ type: "pending" });
@@ -36,8 +36,10 @@ export default function useRequest(options) {
       dispatch({ type: "success", data: response.data });
     } catch (error) {
       console.log(options.url, error)
+     
       dispatch({ type: "error", error });
-      //logout()
+      logout()
+      
     }
   }, [options]);
 
