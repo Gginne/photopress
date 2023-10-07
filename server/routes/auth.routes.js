@@ -23,5 +23,6 @@ router.route("/refresh")
 //Clear refresh token
 router.route("/logout")
     .post(userCtrl.logout)
+    
 //Exports
 module.exports = router

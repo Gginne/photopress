@@ -22,7 +22,7 @@ apiClient.interceptors.response.use(
         const { access } = refreshRequest.data;
 
         setSessionStorage("access", access);
-        console.log("refreshing...");
+        console.log("refreshing access token...");
 
         return apiClient(err.response.config);
 

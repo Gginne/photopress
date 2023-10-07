@@ -117,7 +117,7 @@ const refresh = async (req, res) => {
 
 const logout = async (req, res) => {
   const cookies = req.cookies
-  if (!cookies?.jwt_refresh) return res.sendStatus(204) //No content
+  if (!cookies?.jwt_refresh) return res.sendStatus(204) 
   res.clearCookie('jwt_refresh', { httpOnly: true, sameSite: 'None', secure: true })
   res.json({ message: 'Cookie cleared' })
 }

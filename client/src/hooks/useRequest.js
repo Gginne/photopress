@@ -34,11 +34,14 @@ export default function useRequest(options) {
       const response = await apiClient.request(options);
       console.log(options.url, response)
       dispatch({ type: "success", data: response.data });
-    } catch (error) {
-      console.log(options.url, error)
-     
-      dispatch({ type: "error", error });
-      logout()
+    } catch (err) {
+      console.log(options.url, err)
+
+      if(err.response.status == 401) logout()
+
+      dispatch({ type: "error", err });
+
+      
       
     }
   }, [options]);
