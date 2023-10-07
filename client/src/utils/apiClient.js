@@ -15,23 +15,21 @@ apiClient.interceptors.request.use((req) => {
    Promise.reject(err)
 });
 
-/*
+
 apiClient.interceptors.response.use((res) => {
    
    return res;
  }, async (err) => {
-   if(err.response.status === 401 || err.response.status === 500){
+   if(err.response.status === 401){
 
       try{
-         const {access, refresh} = err.response.data
-         setSessionStorage('access', access)
-         setSessionStorage('refresh', refresh)
-         
-         console.log("refreshing...")
+         const refreshRequest = await axios.post("/api/refresh")
 
-         if(err.response.config.method === "post"){
-            err.response.config.data = JSON.parse(err.response.config.data)
-         }
+         const {access} = refreshRequest.data
+
+         setSessionStorage('access', access)
+
+         console.log("refreshing...")
       
          return apiClient(err.response.config)
 
@@ -47,5 +45,5 @@ apiClient.interceptors.response.use((res) => {
    Promise.reject(err)
 
  });
-*/
+
 export default apiClient

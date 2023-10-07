@@ -15,6 +15,10 @@ router.route("/login")
 //Get user data
 router.route("/register")
     .post(userCtrl.register)
+
+//Get user data
+router.route("/refresh")
+    .post(userCtrl.refresh)
     
 //Exports
 module.exports = router
