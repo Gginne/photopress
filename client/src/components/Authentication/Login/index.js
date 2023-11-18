@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import {Link} from "react-router-dom"
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import { useNavigate, Navigate } from "react-router-dom";
 
 const Login = ({onSubmit}) =>{
     const [email, setEmail] = useState('')
@@ -19,16 +15,14 @@ const Login = ({onSubmit}) =>{
             <h1>Login</h1>
             <form method="POST" onSubmit={handleSubmit}>
                 <div>
-                    <TextField label="Email" name="email" onChange={e => setEmail(e.target.value)} margin="normal" 
-                        fullWidth value={email} variant="outlined" />
+                    <input type='text' className='input' placeholder="Email" name="email" onChange={e => setEmail(e.target.value)}  value={email} />
                 </div>
                 <div>
-                    <TextField label="Password" name="password" onChange={e => setPassword(e.target.value)} margin="normal" 
-                        fullWidth value={password} variant="outlined" type="password" />
+                    <input type='password' className='input' placeholder="Password" name="password" onChange={e => setPassword(e.target.value)}  value={password} />
                 </div>
                 <br></br>
                 <div>
-                    <Button variant="contained" color="primary" type="submit" disableElevation> Sign In </Button>
+                    <button className='button bg-teal-500' type="submit">Sign In</button>
                 </div>
         
             </form>

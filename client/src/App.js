@@ -1,11 +1,6 @@
-import React, { useState, createContext } from "react";
-import CssBaseline from "@mui/material/CssBaseline";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./components/Login";
-import Logout from "./components/Logout";
 import Photos from "./components/Photos";
-import PhotoForm from "./components/PhotoForm";
-import Register from "./components/Register";
 import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import Authentication from "./components/Authentication";
@@ -13,7 +8,7 @@ import Authentication from "./components/Authentication";
 function App() {
   return (
     <div className="App">
-      <CssBaseline />
+
 
       <AuthProvider>
         <Routes>
