@@ -1,26 +1,46 @@
-import React from 'react'
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-export default function PhotoDialog() {
+import  useRequest from "@/hooks/useRequest";
+import { deletePhotos } from "@/services/photoService";
+
+const formatDateTime = (ds: string) => new Date(ds).toLocaleString();
+
+export default function PhotoDialog({ data, onClose, onPhotosChange }: any) {
+
+  const deletePhotoRequest = useRequest(deletePhotos(data?._id));
+
+  const handleDelete = () => {
+    deletePhotoRequest.trigger();
+    onPhotosChange();
+    onClose()
+  }
+
   return (
-    <Dialog>
-  <DialogTrigger>Open</DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Are you sure absolutely sure?</DialogTitle>
-      <DialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>
-  )
+    <Dialog open={data ? true : false} onOpenChange={onClose}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{data?.title}</DialogTitle>
+          <DialogDescription>
+            {
+              <div>
+                <p>{data?.notes}</p>
+                <p>Uploaded: {formatDateTime(data?.created_at)} </p>
+              </div>
+            }
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <button className="btn bg-teal-500 py-1 px-2 text-white rounded hover:bg-teal-600">Edit</button>
+          <button className="btn bg-red-500 py-1 px-2 text-white rounded hover:bg-red-600" onClick={handleDelete}>Delete</button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 }

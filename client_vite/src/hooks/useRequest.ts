@@ -2,10 +2,13 @@ import { useCallback, useReducer } from "react";
 import apiClient from "../utils/apiClient";
 import { useAuth } from "../context/AuthContext";
 
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
   switch (action.type) {
     case "pending": {
       return { loading: true, data: null, error: null };
+    }
+    case "reset": {
+      return { loading: false, data: null, error: null };
     }
     case "success": {
       return { loading: false, data: action.data, error: null };
@@ -19,7 +22,7 @@ const reducer = (state, action) => {
   }
 };
 
-export default function useRequest(options) {
+export default function useRequest(endpoint: any) { // setup options type
   const [state, dispatch] = useReducer(reducer, {
     data: null,
     error: null,
@@ -28,14 +31,17 @@ export default function useRequest(options) {
 
   const {logout} = useAuth()
 
-  const trigger = useCallback(async () => {
+  const trigger = useCallback(async (body?: any) => {
     dispatch({ type: "pending" });
     try {
-      const response = await apiClient.request(options);
-      console.log(options.url, response)
+
+      endpoint.data = body
+      const response = await apiClient.request(endpoint);
+      console.log(endpoint.url, response)
+      
       dispatch({ type: "success", data: response.data });
-    } catch (err) {
-      console.log(options.url, err)
+    } catch (err: Error | any) {
+      console.log(endpoint.url, err)
 
       if(err.response.status == 401) logout()
 
@@ -44,7 +50,11 @@ export default function useRequest(options) {
       
       
     }
-  }, [options]);
+  }, [endpoint]);
 
-  return { trigger, ...state };
+  const clear = useCallback(() => {
+    dispatch({ type: "reset" });
+  }, [])
+
+  return { trigger,clear, ...state };
 }
