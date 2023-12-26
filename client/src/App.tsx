@@ -6,7 +6,7 @@ import Authentication from "./components/Authentication";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App h-screen">
 
 
       <AuthProvider>
