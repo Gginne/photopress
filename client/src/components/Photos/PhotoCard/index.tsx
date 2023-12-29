@@ -15,9 +15,10 @@ const PhotoCard = ({ data, onShowMore }: PhotoCardProps) => {
   };
   return (
     <div
-      className="relative overflow-hidden rounded-lg shadow-sm"
+      className="relative overflow-hidden rounded-lg shadow-sm cursor-pointer col-span-6 sm:col-span-4 md:col-span-3 h-36"
       onMouseOver={() => setShowOptions(true)}
       onMouseLeave={() => setShowOptions(false)}
+      onClick={() => handleShowMore()}
     >
       <img
         src={data.src}

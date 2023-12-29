@@ -36,6 +36,7 @@ export default function useRequest(endpoint: any) { // setup options type
     try {
 
       endpoint.data = body
+      
       const response = await apiClient.request(endpoint);
       console.log(endpoint.url, response)
       

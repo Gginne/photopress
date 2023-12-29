@@ -1,6 +1,6 @@
 import { useMemo, useEffect, useState } from "react";
 import useRequest from "../../hooks/useRequest";
-import { getPhotos } from "../../services/photoService";
+import { getPhotos, savePhoto } from "../../services/photoService";
 import PhotoCard from "./PhotoCard";
 import PhotoDialog from "./PhotoDialog";
 import CreatePhotoDialog from "./CreatePhotoDialog";
@@ -8,13 +8,9 @@ import { MdAddAPhoto } from "react-icons/md";
 
 const Photos = () => {
   const getPhotoRequest = useRequest(getPhotos());
+  const savePhotoRequest = useRequest(savePhoto());
   const [showMore, setShowMore] = useState(null);
   const [newPhoto, setNewPhoto] = useState<File>();
-
-  useEffect(() => {
-    getPhotoRequest.trigger();
-  }, []);
-
   
   const handlePhotosChange = () => {
     getPhotoRequest.clear();
@@ -22,11 +18,21 @@ const Photos = () => {
 
   };
 
-  const photos = useMemo(
-    () => getPhotoRequest.data ?? [],
-    [getPhotoRequest.data]
-  );
+  const handlePhotoSave = async (title: string, notes: string, image: File) => {
 
+    const formData = new FormData();
+
+    formData.append('image',  image);
+    formData.append('title', title);
+    formData.append('notes', notes);
+    formData.append('tags', "");
+
+    await savePhotoRequest.trigger(formData);
+
+    getPhotoRequest.trigger();
+    
+
+  }
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if(!e.target.files) return;
 
@@ -34,7 +40,15 @@ const Photos = () => {
     
     setNewPhoto(photo);
   } 
-
+  
+  const photos = useMemo(
+    () => getPhotoRequest.data ?? [],
+    [getPhotoRequest.data]
+  );
+  
+  useEffect(() => {
+    getPhotoRequest.trigger();
+  }, []);
 
   return (
     <>
@@ -44,13 +58,13 @@ const Photos = () => {
           <input className="w-2/5 border border-gray-300 p-2 rounded" placeholder="Search Photos" />
           <label className="bg-emerald-500 text-white p-2 rounded cursor-pointer">
             <MdAddAPhoto size={20}/>
-            <input type="file" style={{ opacity: 0, position: "absolute", left: "-9999px"}} onChange={handleSelectPhoto} />
+            <input type="file"  accept="image/*" style={{ opacity: 0, position: "absolute", left: "-9999px"}} onChange={handleSelectPhoto} />
         
           </label>
-          <CreatePhotoDialog file={newPhoto} onClose={() => setNewPhoto(undefined)}/>
+          <CreatePhotoDialog imageFile={newPhoto} onClose={() => setNewPhoto(undefined)} onConfirm={handlePhotoSave}/>
         </div>
         <div className="container mx-auto p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="grid grid-cols-12 gap-4">
             {photos.map((photo: any, index: number) => (
               <PhotoCard key={index} data={photo} onShowMore={(photo) => setShowMore(photo)}/>
             ))}

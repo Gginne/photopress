@@ -16,8 +16,8 @@ export default function PhotoDialog({ data, onClose, onPhotosChange }: any) {
 
   const deletePhotoRequest = useRequest(deletePhotos(data?._id));
 
-  const handleDelete = () => {
-    deletePhotoRequest.trigger();
+  const handleDelete = async () => {
+    await deletePhotoRequest.trigger();
     onPhotosChange();
     onClose()
   }

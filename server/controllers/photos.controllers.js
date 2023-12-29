@@ -38,7 +38,7 @@ class PhotoController{
             const {path, filename, mimetype} = req.file
             const {title, notes, tags} = req.body
             const author = req.user.id
-
+       
             //Save Image data to bucket
             try{
                 await uploadFile(path, filename, mimetype)
